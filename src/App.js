@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import React, { useState, createContext } from 'react';
+import logo from './assets/onering.png';
 import './App.css';
+import Login from './components/Login.jsx';
+import { switchStatus } from './lib/login.js';
+
+export const AppContext = createContext();
 
 function App() {
+
+  let [loginStatus, setLoginStatus] = useState();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={{loginStatus, setLoginStatus}}>
+      {loginStatus ?
+      <div className="App">
+          <div className='App-logo-text'>FamBAM</div>
+          <img src={logo} id="logo" className="App-logo" alt="logo" />
+          <p>
+            <button onClick={() => {setLoginStatus(loginStatus = switchStatus(loginStatus))}}>Switch Status</button>
+            <button onClick={() => {alert(localStorage.getItem(`fambamLogin`))}}>Check login</button>
+          </p>
+      </div> :
+      <Login />}
+    </AppContext.Provider>
   );
 }
 
