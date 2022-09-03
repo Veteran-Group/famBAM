@@ -3,18 +3,29 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vmin;
   pointer-events: none;
+}
+
+.App-logo-text {
+  font-family: Luminari, fantasy;
+  font-size: calc(5px + 2vmin);
+  position: absolute;
+  display: flex;
+  margin-left: 46.5%;
+  margin-top: 14vh;
+  color: black;
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 50s linear;
   }
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #bed4ff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
