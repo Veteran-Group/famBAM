@@ -18,7 +18,7 @@ function App() {
           <div className='App-logo-text'>FamBAM</div>
           <img src={logo} id="logo" className="App-logo" alt="logo" />
           <p>
-            <button onClick={() => {setLoginStatus(loginStatus = switchStatus(loginStatus))}}>Switch Status</button>
+            <button onClick={() => {setLoginStatus(loginStatus = switchStatus(false))}}>Switch Status</button>
             <button onClick={() => {alert(localStorage.getItem(`fambamLogin`))}}>Check login</button>
           </p>
       </div>}
