@@ -1,0 +1,10 @@
+.todo {
+    position: absolute;
+    min-width: 20vw;
+    min-height: 43.5vh;
+    border: black solid 1px;
+    border-radius: 10px;
+    margin-top: 40vh;
+    margin-left: 3vw;
+    margin-right: 97vw;
+}

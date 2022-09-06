@@ -1,9 +1,11 @@
 var controller = require('./controllers');
 var router = require('express').Router();
-var cors = require('cors');
+var allowServerAccessBy = require('cors');
 require('dotenv').config();
 
-router.use(cors());
+const env = process.env;
+
+router.use(allowServerAccessBy());
 
 router.get(`/login`, controller.login);
 

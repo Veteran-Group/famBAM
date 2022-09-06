@@ -9,7 +9,6 @@ module.exports = {
 
     db.queryAsync(query)
       .then((response) => {
-          console.log(response[0].rows)
           if (response[0].rows.length === 1) {
           res.status(200).send(true);
         } else {

@@ -3,19 +3,8 @@
 }
 
 .App-logo {
-  height: 30vmin;
+  height: 225px;
   pointer-events: none;
-}
-
-.App-logo-text {
-  font-family: Luminari, fantasy;
-  font-size: calc(5px + 2vmin);
-  position: absolute;
-  display: flex;
-  margin-left: 46.5%;
-  margin-top: 14vh;
-  color: black;
-
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -32,7 +21,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(244, 243, 243);
 }
 
 .App-link {
