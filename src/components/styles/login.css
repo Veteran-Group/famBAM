@@ -7,17 +7,21 @@
 
 .login {
   align-items: center;
-  position:absolute;
+  margin-right: 40vw;
   margin-left: 40vw;
-  margin-top: 15vh;
+  position: absolute;
   padding: 10px;
-  max-width: 34vh;
-  max-height: 80vh;
-  min-height: 1vh;
-  min-width: 1vh;
+  height: 100px;
+  width: 250px;
 }
 
 .login .App-logo-text {
+  font-family: Luminarie, fantasy;
   position: absolute;
-  margin-left: 5vw;
+  margin-top: 100px;
+  margin-left: 80px;
+}
+
+.login .button {
+  margin-top: 10px;
 }

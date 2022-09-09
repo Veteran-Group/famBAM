@@ -2,25 +2,29 @@ import React, { useState, createContext, useEffect } from 'react';
 import logo from './assets/onering.png';
 import './App.css';
 import Login from './components/Login.jsx';
-import { switchStatus } from './lib/login.js';
+import { saveStatus } from './lib/login/login.js';
+import Navbar from './components/Navbar';
+import ChatFeed from './components/chat/ChatFeed.jsx';
+import Profile from './components/Profile.jsx';
+import Todo from './components/Todo.jsx';
 
 export const AppContext = createContext();
 
 function App() {
 
   let [loginStatus, setLoginStatus] = useState(false);
+  let [profile, setProfile] = useState();
+  let [chatLog, setChatLog] = useState();
 
   return (
-    <AppContext.Provider value={{loginStatus, setLoginStatus}}>
+    <AppContext.Provider value={{profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
-          <div className='App-logo-text'>FamBAM</div>
-          <img src={logo} id="logo" className="App-logo" alt="logo" />
-          <p>
-            <button onClick={() => {setLoginStatus(loginStatus = switchStatus(false))}}>Switch Status</button>
-            <button onClick={() => {alert(localStorage.getItem(`fambamLogin`))}}>Check login</button>
-          </p>
+        <Navbar />
+        <Profile />
+        <Todo />
+        <ChatFeed />
       </div>}
     </AppContext.Provider>
   );
