@@ -3,8 +3,8 @@
   margin-right: 31.5vw;
   margin-top: 3vh;
   min-width: 700px;
-  min-height: 760px;
-  max-height: 760px;
+  min-height: 650px;
+  max-height: 650px;
   border-radius: 10px;
 }
 
@@ -19,8 +19,8 @@
   overflow: hidden;
   min-width: 710px;
   max-width: 710px;
-  min-height: 750px;
-  max-height: 750px;
+  min-height: 640px;
+  max-height: 640px;
 }
 
 .chat-box .newMessage {
@@ -32,20 +32,72 @@
   margin: 10px;
 }
 
-.chat-bubble {
+.chat-bubble-self {
   margin-top: 10px;
   margin-bottom: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: blanchedalmond;
 }
 
-.chat-bubble .username {
+.chat-bubble-self .username {
+  height: atuo;
+  width: auto;
+  float: left;
+  font-weight: bold;
   text-align: left;
+  padding-left: 10px;
+  padding-top: 15xp;
 }
 
-.chat-bubble .timestamp {
-  padding-left: 595px;
+.chat-bubble-self .timestamp {
+  height: 12px;
+  width: 50px;
+  padding-top: 5px;
+  float: left;
+  font-size: x-small;
 }
-
-.chat-bubble .message {
-  width: 580px;
+.chat-bubble-self .message {
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  max-width: 100%;
   text-overflow: clip;
 }
+
+.chat-bubble-others {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: aqua;
+}
+
+.chat-bubble-others .username {
+  height: atuo;
+  width: auto;
+  float: right;
+  font-weight: bold;
+  text-align: right;
+  padding-right: 10px;
+  padding-top: 15xp;
+}
+
+.chat-bubble-others .timestamp {
+  height: 12px;
+  width: 50px;
+  padding-top: 5px;
+  float: right;
+  font-size: x-small;
+}
+.chat-bubble-others .message {
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  max-width: 100%;
+  text-overflow: clip;
+}
+
+

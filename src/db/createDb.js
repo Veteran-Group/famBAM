@@ -8,7 +8,8 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
       user_id SERIAL PRIMARY KEY,
       f_name VARCHAR,
       l_name VARCHAR,
-      username VARCHAR
+      username VARCHAR,
+      role VARCHAR
     )`)
   })
   .then(() => {
@@ -16,5 +17,19 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
       user_id INTEGER,
       username VARCHAR,
       pass VARCHAR
+    )`)
+  })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.roomList (
+      room_id SERIAL PRIMARY KEY,
+      room_name VARCHAR,
+      room_pass VARCHAR
+    )`)
+  })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.guestRoom (
+      user_id INTEGER,
+      user_name VARCHAR,
+      user_message VARCHAR
     )`)
   })

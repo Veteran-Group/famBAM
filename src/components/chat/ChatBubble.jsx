@@ -5,19 +5,29 @@ import { AppContext } from "../../App";
 
 const ChatBubble = () => {
 
-  let{chatLog, setChatLog} = useContext(AppContext);
+  let{chatLog, setChatLog, profile} = useContext(AppContext);
 
   return (
     <div className="chat-feed">
       {
         chatLog.map((chatMessage) => {
-          return (
-            <Paper className="chat-bubble" shadow="sm" radius="xl" p="sm">
-              <div className="username">{chatMessage.username}</div>
-              <div className="timestamp">{chatMessage.timestamp}</div>
-              <div className="message">{chatMessage.message}</div>
-            </Paper>
-          )
+          if (chatMessage.username === profile.username) {
+            return (
+              <div className="chat-bubble-self">
+                <div className="username">{chatMessage.username}</div>
+                <div className="timestamp">{chatMessage.timestamp}</div>
+                <div className="message">{chatMessage.message}</div>
+              </div>
+            )
+          } else {
+            return (
+              <div className="chat-bubble-others">
+                <div className="username">{chatMessage.username}</div>
+                <div className="timestamp">{chatMessage.timestamp}</div>
+                <div className="message">{chatMessage.message}</div>
+              </div>
+            )
+          }
         })
       }
     </div>

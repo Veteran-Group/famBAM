@@ -12,7 +12,27 @@ const ChatFeed = () => {
 
   useEffect(() => {
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
-  }, [chatLog])
+  }, [chatLog]);
+
+  useEffect(() => {
+    let keyDownHandler = (event) => {
+      // Enable below if you want to see keylog in console
+
+      let messageText = document.getElementById('message').value;
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        enterMessage(messageText);
+        document.getElementById('message').value = "";
+      }
+    };
+
+    document.addEventListener("keydown", keyDownHandler);
+
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, []);
 
   let enterMessage = (message) => {
     let time = getTime();
@@ -27,7 +47,7 @@ const ChatFeed = () => {
   return (
     <div className="chat-window">
       <Text className="title">Chat Room Name Here</Text>
-      <ScrollArea viewportRef={viewport} id="chat-box" className="chat-box" style={{ height: 250 }}>
+      <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" className="chat-box" style={{ height: 250 }}>
         <ChatBubble />
     </ScrollArea>
     <TextInput
@@ -37,7 +57,6 @@ const ChatFeed = () => {
         radius="xl"
         withAsterisk
         />
-    <button onClick={() => {enterMessage(document.getElementById('message').value)}}>Enter</button>
     </div>
   )
 }
