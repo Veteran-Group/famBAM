@@ -11,8 +11,8 @@ describe(`./src/lib/login/login.js`, () => {
     });
 
     it(`should return the loginstatus without changing it`, () => {
-      let loginstatus = false;
-      expect(saveStatus(loginstatus)).toEqual(false);
+      let loginstatus = { status: false };
+      expect(saveStatus(loginstatus.status)).toEqual(false);
     })
   })
 

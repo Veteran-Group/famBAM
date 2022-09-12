@@ -1,9 +1,12 @@
 .navbar {
   background-color: rgb(244, 243, 243);
-  min-height: 45px;
 }
-.title {
+
+.navbar .title {
+  position: absolute;
+  text-align: center;
   font-family: Luminari, fantasy;
-  font-size: calc(5px + 2vmin);
-  padding-top: 5px;
+  width: 100%;
+  height: auto;
+  margin-top: 6px;
 }
