@@ -13,7 +13,7 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
       l_name,
       username,
       role
-    ) VALUES($1, $2, $3, $4)`, ['Erica', 'Campbell', 'Dad', 'parent'])
+    ) VALUES($1, $2, $3, $4)`, ['Erica', 'Campbell', 'Mom', 'parent'])
   })
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.credentiales (
@@ -29,7 +29,7 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
     db.queryAsync(`INSERT INTO fambamschema.roomList (
       room_name,
       room_pass
-      ) VALUES ($1, $2)`, [`guestRoom`, ``]
+      ) VALUES ($1, $2)`, [`Guest Room`, ``]
     )
   })
   .then(() => {

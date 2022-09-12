@@ -11,16 +11,16 @@ import { api } from '../config.js';
 
 const Login = () => {
 
-  let {loginStatus, setLoginStatus} = useContext(AppContext);
+  let {loginStatus, setLoginStatus, profile, setProfile} = useContext(AppContext);
 
   const login = (user, pass) => {
     axios.get(`${api}/login?username=${user}&pass=${pass}`)
       .then((response) => {
         let login = response.data;
-        console.log(`Status: ${response.data}`);
         checkStatus(login, `Invalid Login`,(status) => {
           setLoginStatus(loginStatus = status);
-          return loginStatus;
+          setProfile(profile = login);
+          saveStatus(profile);
         });
       })
       .catch((err) => {console.log(`Error in reception: ${err}`)})
@@ -51,6 +51,7 @@ const Login = () => {
         </Paper>
       </div>
       <button onClick={() => {setLoginStatus(loginStatus = true)}}>Test Login</button>
+      <button onClick={() => {console.log(loginStatus, JSON.stringify(profile))}}>Status</button>
     </div>
   )
 }
