@@ -8,5 +8,6 @@ const env = process.env;
 router.use(allowServerAccessBy());
 
 router.get(`/login`, controller.login);
+router.get(`/loadGuestRoom`, controller.loadGuestRoom)
 
 module.exports = router;

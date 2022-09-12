@@ -39,6 +39,7 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: blanchedalmond;
+  width:fit-content;
 }
 
 .chat-bubble-self .username {
@@ -53,8 +54,9 @@
 
 .chat-bubble-self .timestamp {
   height: 12px;
-  width: 50px;
+  width: auto;
   padding-top: 5px;
+  padding-left: 5px;
   float: left;
   font-size: x-small;
 }
@@ -62,17 +64,22 @@
   padding-top: 20px;
   padding-left: 10px;
   padding-bottom: 10px;
+  padding-right: 10px;
   max-width: 100%;
   text-overflow: clip;
+  width:fit-content;
 }
 
 .chat-bubble-others {
+  position: relative;
+  margin-left: auto;
   margin-top: 10px;
   margin-bottom: 10px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: aqua;
+  width:fit-content;
 }
 
 .chat-bubble-others .username {
@@ -87,17 +94,21 @@
 
 .chat-bubble-others .timestamp {
   height: 12px;
-  width: 50px;
+  width: auto;
   padding-top: 5px;
+  padding-right: 5px;
   float: right;
   font-size: x-small;
 }
 .chat-bubble-others .message {
   padding-top: 20px;
+  text-align: right;
   padding-right: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
   max-width: 100%;
   text-overflow: clip;
+  width:fit-content;
 }
 
 

@@ -30,6 +30,7 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
     db.queryAsync(`CREATE TABLE fambamschema.guestRoom (
       user_id INTEGER,
       user_name VARCHAR,
-      user_message VARCHAR
+      user_message VARCHAR,
+      time_stamp VARCHAR
     )`)
   })

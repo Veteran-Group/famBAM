@@ -18,11 +18,9 @@ const ChatFeed = () => {
     let keyDownHandler = (event) => {
       // Enable below if you want to see keylog in console
 
-      let messageText = document.getElementById('message').value;
-
       if (event.key === "Enter") {
         event.preventDefault();
-        enterMessage(messageText);
+        enterMessage();
         document.getElementById('message').value = "";
       }
     };
@@ -34,13 +32,14 @@ const ChatFeed = () => {
     };
   }, []);
 
-  let enterMessage = (message) => {
+  let enterMessage = () => {
     let time = getTime();
+    let message = document.getElementById('message').value;
 
     setChatLog(chatLog = [...chatLog, {
-      username: profile.username,
-      message: message,
-      timestamp: time
+      user_name: profile.username,
+      user_message: message,
+      time_stamp: time
     }])
   }
 
@@ -49,14 +48,14 @@ const ChatFeed = () => {
       <Text className="title">Chat Room Name Here</Text>
       <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" className="chat-box" style={{ height: 250 }}>
         <ChatBubble />
-    </ScrollArea>
-    <TextInput
+      </ScrollArea>
+      <TextInput
         id="message"
         className="newMessage"
         placeholder="Enter Message"
         radius="xl"
         withAsterisk
-        />
+      />
     </div>
   )
 }

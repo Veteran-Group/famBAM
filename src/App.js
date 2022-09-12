@@ -7,11 +7,17 @@ import Navbar from './components/Navbar';
 import ChatFeed from './components/chat/ChatFeed.jsx';
 import Profile from './components/Profile.jsx';
 import Todo from './components/Todo.jsx';
+import axios from 'axios';
+import { api } from './config.js';
 
 export const AppContext = createContext();
 
 function App() {
 
+  let[chatRoomCredentials, setChatRoomCredentials] = useState({
+    roomName: 'Guest Room',
+    roomPass:''
+  });
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [profile, setProfile] = useState({
     firstName: localStorage.getItem('firstName'),
@@ -33,6 +39,14 @@ function App() {
     })
     setLoginStatus(loginStatus = false);
   }
+
+  useEffect(() => {
+    axios.get(`${api}/loadGuestRoom?roomName=${chatRoomCredentials.roomName}&roomPass=${chatRoomCredentials.roomPass}`)
+      .then((response) => {
+        console.log(response.data);
+        setChatLog(chatLog = [...chatLog, ...response.data])
+      })
+  }, [])
 
   return (
     <AppContext.Provider value={{profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
