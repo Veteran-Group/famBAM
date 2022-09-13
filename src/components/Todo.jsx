@@ -1,17 +1,32 @@
 import React, { useState } from "react";
 import { Text } from '@mantine/core';
 import './styles/todo.css';
-import { Button } from '@mantine/core';
+import { Button, Collapse } from '@mantine/core';
+import kittens from './styles/ComponentAssets/kittens.jpeg';
+import puppies from './styles/ComponentAssets/puppies.jpeg';
+import dinosaurs from './styles/ComponentAssets/dinosaurs.jpeg'
+import planes from './styles/ComponentAssets/planes.jpeg'
 
 const Todo = () => {
   const [newToDo, setNewToDo] = useState('');
-  //May change to an array of objects
-  const [toDoList, setToDoList] = useState(['run', 'meow', 'purr']);
+  const [opened, setOpened] = useState(false);
+  const [background, setBackground] = useState(null);
+
+  const [toDoList, setToDoList] = useState([
+    {task: 'Meow', instructions: 'Like a cat'},
+    {task: 'Run', instructions: 'Use your legs'},
+    {task: 'Purr', instructions: 'You gotta ask a cat how to do this because I dunno how they do that for real.'}]);
 
   const toDo = toDoList.map((toDo, index) =>
   //can handle this better if using actual identifier for key.
   <ul className='list' key={index}>
-    {toDo}
+    <div className='task'
+    onClick={() => setOpened((o) => !o)}>
+      {!opened ? <div>{toDo.task}</div> : <u>{toDo.task}</u>}
+    </div>
+    <Collapse in={opened}>
+      <i>{toDo.instructions}</i>
+    </Collapse>
     <Button
      className='button'
      color="yellow"
@@ -30,7 +45,12 @@ const Todo = () => {
     </Button>
   </ul>);
 
-  const handleAddToDo = (t) => {
+  const handleSelect = (event) => {
+    event.preventDefault()
+    setBackground(event.target.value)
+  };
+
+  const handleAddToDo = () => {
     if (newToDo.length > 0) {
       setToDoList((prevtoDoList) => {
         return [...prevtoDoList, newToDo]
@@ -46,7 +66,7 @@ const Todo = () => {
   };
 
   return (
-    <div className="todo">
+    <div style={{backgroundImage: `url(${background})`}}className="todo">
       <div>
       <Text className='header' weight={700}> To do list </Text>
       <Button
@@ -63,7 +83,17 @@ const Todo = () => {
       className='input'
       onChange={toDoInput}
       />
-      {toDo}
+      <div>{toDo}</div>
+
+            {/* Flexbox? */}
+            <Text size='sm'>Background:</Text>
+      <select onChange={handleSelect}>
+        <option value='white'>Nothing</option>
+        <option value={kittens}>Kittens</option>
+        <option value={puppies}>Puppies</option>
+        <option value={dinosaurs}>Dinosaurs</option>
+        <option value={planes}>Planes</option>
+      </select>
     </div>
   )
 }

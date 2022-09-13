@@ -30,3 +30,17 @@
 .header {
   margin-left: 5px;
 }
+
+.task:hover {
+  color: blue;
+  cursor: pointer;
+}
+
+.task {
+  margin-bottom: 3px;
+};
+
+.select {
+  font-size: 4px;
+}
+
