@@ -9,27 +9,20 @@ import { api } from '../../config.js';
 
 const ChatFeed = () => {
 
-  let {chatLog, setChatLog, profile, setProfile, chatRoomCredentials, setChatRoomCredentials} = useContext(AppContext);
+  let {chatLog, setChatLog, profile, chatRoomCredentials} = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
   useEffect(() => {
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
   }, [chatLog]);
 
-  useEffect(() => {
-    axios.get(`${api}/loadGuestRoom?roomName=${chatRoomCredentials.roomName}&roomPass=${chatRoomCredentials.roomPass}`)
-      .then((response) => {
-        console.log(response.data);
-        setChatLog(chatLog = response.data)
-      })
-  }, [])
+  useEffect(() => {}, [])
 
   useEffect(() => {
     let keyDownHandler = (event) => {
       // Enable below if you want to see keylog in console
 
       if (event.key === "Enter") {
-        console.log(`Chat Log before message: ${chatLog}`);
         event.preventDefault();
         enterMessage();
         document.getElementById('message').value = "";
@@ -46,15 +39,13 @@ const ChatFeed = () => {
   let enterMessage = () => {
     let time = getTime();
     let message = document.getElementById('message').value;
-
-    setChatLog(chatLog = [...chatLog, {
+    let newMessage = {
       user_name: profile.username,
       user_message: message,
       time_stamp: time
-    }]);
+    };
 
-    console.log(`===========`);
-    console.log(`Chat log after: ${chatLog}`)
+    setChatLog(chatLog = [...chatLog, newMessage]);
   }
 
   return (

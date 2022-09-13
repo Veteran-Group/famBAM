@@ -28,6 +28,7 @@ const Navbar = () => {
       >
         <button onClick={() => { setLoginStatus(loginStatus = false) }}>Logout</button>
         <button onClick={() => { console.log(chatLog)}}>Chat Log</button>
+        <button onClick={() => { console.log(new Date().getTime()) }}>Timestamp</button>
       </Drawer>
     </div>
   )
