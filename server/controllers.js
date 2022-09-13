@@ -15,11 +15,12 @@ module.exports = {
           let id = response[0].rows[0].user_id;
           db.queryAsync(`SELECT f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
             .then((response) => {
-              let user ={
-                firstName: response[0].rows[0].f_name,
-                lastName: response[0].rows[0].l_name,
-                username: response[0].rows[0].username,
-                role: response[0].rows[0].role,
+              let profile = response[0].rows[0];
+              let user = {
+                firstName: profile.f_name,
+                lastName: profile.l_name,
+                username: profile.username,
+                role: profile.role,
                 status: true
               };
               return user;
@@ -37,7 +38,16 @@ module.exports = {
     // Generate room id
     let id = serverLib.getRoomSerial(desiredRoomName);
     // update roomList with room_id, room_name, and room_pass
-
+    let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass] };
+    Promise.all(db.queryAsync(newRoomQuery))
     // Create a new table using fambamschema.{room_id}
+    Promise.all(db.queryAsync(`CREATE TABLE fambamschema.${id} (
+      user_id INTEGER,
+      user_name VARCHAR,
+      user_message VARCHAR,
+      time_stamp VARCHAR,
+      date VARCHAR
+    )`))
+    res.status(200).send(`New room '${desiredRoomName}' has been created!`)
   },
 }

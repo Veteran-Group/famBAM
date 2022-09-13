@@ -7,7 +7,7 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
   l_name,
   username,
   role
-) VALUES($1, $2, $3, $4)`, ['Robert', 'Campbell', 'Dad', 'parent'])
+  ) VALUES($1, $2, $3, $4)`, ['Robert', 'Campbell', 'Dad', 'parent'])
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.profile (
       f_name,
@@ -20,19 +20,13 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
     db.queryAsync(`INSERT INTO fambamschema.credentiales (
       user_id,
       username,
-      pass) VALUES($1, $2, $3)`, [1, 'Dad', `${process.env.dadpass}`])})
+      pass) VALUES($1, $2, $3)`, [1, 'Dad', `${process.env.dadpass}`])
+  })
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.credentiales (
       user_id,
       username,
-      pass) VALUES($1, $2, $3)`, [2, 'Erica', `${process.env.mompass}`])})
-  .then(() => {
-    db.queryAsync(`INSERT INTO fambamschema.roomList (
-      room_id
-      room_name,
-      room_pass
-      ) VALUES ($1, $2)`, [``, `Home`, ``]
-    )
+      pass) VALUES($1, $2, $3)`, [2, 'Erica', `${process.env.mompass}`])
   })
 
 
@@ -95,7 +89,7 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
   //   };
 
   //   Promise.all(chatLog.map((chatItem) => {
-  //     db.queryAsync(`INSERT INTO fambamschema.guestRoom (
+  //     db.queryAsync(`INSERT INTO fambamschema.ENTER_TABLE_NAME (
   //       user_id,
   //       user_name,
   //       user_message,

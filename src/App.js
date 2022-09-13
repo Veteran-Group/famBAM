@@ -4,10 +4,11 @@ import './App.css';
 import Login from './components/Login.jsx';
 import { saveStatus, logout } from './lib/login/login.js';
 import Navbar from './components/Navbar';
-import ChatFeed from './components/chat/ChatFeed.jsx';
+import MainFeed from './components/MainFeed.jsx';
 import Profile from './components/Profile.jsx';
 import Todo from './components/Todo.jsx';
 import axios from 'axios';
+import UtilityBelt from './components/UtilityBelt.jsx';
 
 export const AppContext = createContext();
 
@@ -26,6 +27,7 @@ function App() {
     status: localStorage.getItem('fambamLogin')
   });
   let [chatLog, setChatLog] = useState([]);
+  let [mainView, setMainView] = useState('chat');
 
   const exit = () => {
     logout();
@@ -40,14 +42,15 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{chatRoomCredentials, setChatRoomCredentials, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{mainView, setMainView, chatRoomCredentials, setChatRoomCredentials, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
           <Navbar />
           <Profile />
           <Todo />
-          <ChatFeed />
+          <UtilityBelt />
+          <MainFeed />
         </div>
       }
 

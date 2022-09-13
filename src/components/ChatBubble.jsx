@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Text, TextInput, Paper } from '@mantine/core';
-import '../styles/chat.css';
-import { AppContext } from "../../App";
+import './styles/chat.css';
+import { AppContext } from "../App";
 
 const ChatBubble = () => {
 
