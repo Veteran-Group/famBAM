@@ -50,4 +50,16 @@ module.exports = {
     )`))
     res.status(200).send(`New room '${desiredRoomName}' has been created!`)
   },
+  sendTextDad: function(req, res) {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const client = require('twilio')(accountSid, authToken);
+
+    client.messages
+      .create({
+        body: 'IT IS ALIVE',
+        from: '+19162257301',
+        to: '+19162257301'
+      })
+    },
 }
