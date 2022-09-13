@@ -10,7 +10,7 @@ const Todo = () => {
 
   const toDo = toDoList.map((toDo, index) =>
   //can handle this better if using actual identifier for key.
-  <li key={index}>
+  <ul className='list' key={index}>
     {toDo}
     <Button
      className='button'
@@ -28,7 +28,7 @@ const Todo = () => {
      compact>
       Delete
     </Button>
-  </li>);
+  </ul>);
 
   const handleAddToDo = (t) => {
     if (newToDo.length > 0) {
@@ -48,9 +48,9 @@ const Todo = () => {
   return (
     <div className="todo">
       <div>
-      <Text weight={700}> To do list </Text>
+      <Text className='header' weight={700}> To do list </Text>
       <Button
-      className='button'
+      className='addButton'
       onClick={handleAddToDo}
       color="green" radius="md"
       size="xs"

@@ -9,6 +9,12 @@
     margin-right: 97vw;
 }
 
+.addButton {
+  margin-right: 3px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+}
+
 .button {
   margin-right: 3px;
   margin-bottom: 5px;
@@ -19,4 +25,8 @@
     margin-right: 3px;
     margin-bottom: 5px;
     margin-left: 5px;
+}
+
+.header {
+  margin-left: 5px;
 }
