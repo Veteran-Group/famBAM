@@ -1,0 +1,10 @@
+.utility-belt{
+  position: absolute;
+  min-width: 20vw;
+  min-height: 80vh;
+  border: black solid 1px;
+  border-radius: 10px;
+  margin-top: 3vh;
+  margin-left: 77vw;
+  margin-right: 3vw;
+}
