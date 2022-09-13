@@ -32,11 +32,15 @@
 }
 
 .task:hover {
-  color: orange;
+  color: blue;
   cursor: pointer;
 }
 
 .task {
   margin-bottom: 3px;
 };
+
+.select {
+  font-size: 4px;
+}
 

@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { Text } from '@mantine/core';
 import './styles/todo.css';
 import { Button, Collapse } from '@mantine/core';
+import kittens from './styles/ComponentAssets/kittens.jpeg';
+import puppies from './styles/ComponentAssets/puppies.jpeg';
+import dinosaurs from './styles/ComponentAssets/dinosaurs.jpeg'
+import planes from './styles/ComponentAssets/planes.jpeg'
 
 const Todo = () => {
   const [newToDo, setNewToDo] = useState('');
   const [opened, setOpened] = useState(false);
+  const [background, setBackground] = useState(null);
 
   const [toDoList, setToDoList] = useState([
     {task: 'Meow', instructions: 'Like a cat'},
@@ -40,6 +45,11 @@ const Todo = () => {
     </Button>
   </ul>);
 
+  const handleSelect = (event) => {
+    event.preventDefault()
+    setBackground(event.target.value)
+  };
+
   const handleAddToDo = () => {
     if (newToDo.length > 0) {
       setToDoList((prevtoDoList) => {
@@ -56,7 +66,7 @@ const Todo = () => {
   };
 
   return (
-    <div className="todo">
+    <div style={{backgroundImage: `url(${background})`}}className="todo">
       <div>
       <Text className='header' weight={700}> To do list </Text>
       <Button
@@ -74,6 +84,16 @@ const Todo = () => {
       onChange={toDoInput}
       />
       <div>{toDo}</div>
+
+            {/* Flexbox? */}
+            <Text size='sm'>Background:</Text>
+      <select onChange={handleSelect}>
+        <option value='white'>Nothing</option>
+        <option value={kittens}>Kittens</option>
+        <option value={puppies}>Puppies</option>
+        <option value={dinosaurs}>Dinosaurs</option>
+        <option value={planes}>Planes</option>
+      </select>
     </div>
   )
 }
