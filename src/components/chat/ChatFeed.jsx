@@ -4,25 +4,27 @@ import "../styles/chat.css";
 import ChatBubble from "./ChatBubble";
 import { AppContext } from "../../App";
 import { getTime } from "../../lib/ChatFeed/chatfeedlib.js";
+import axios from "axios";
+import { api } from '../../config.js';
 
 const ChatFeed = () => {
 
-  let {chatLog, setChatLog, profile, setProfile} = useContext(AppContext);
+  let {chatLog, setChatLog, profile, chatRoomCredentials} = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
   useEffect(() => {
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
   }, [chatLog]);
 
+  useEffect(() => {}, [])
+
   useEffect(() => {
     let keyDownHandler = (event) => {
       // Enable below if you want to see keylog in console
 
-      let messageText = document.getElementById('message').value;
-
       if (event.key === "Enter") {
         event.preventDefault();
-        enterMessage(messageText);
+        enterMessage();
         document.getElementById('message').value = "";
       }
     };
@@ -34,14 +36,16 @@ const ChatFeed = () => {
     };
   }, []);
 
-  let enterMessage = (message) => {
+  let enterMessage = () => {
     let time = getTime();
+    let message = document.getElementById('message').value;
+    let newMessage = {
+      user_name: profile.username,
+      user_message: message,
+      time_stamp: time
+    };
 
-    setChatLog(chatLog = [...chatLog, {
-      username: profile.username,
-      message: message,
-      timestamp: time
-    }])
+    setChatLog(chatLog = [...chatLog, newMessage]);
   }
 
   return (
@@ -49,14 +53,14 @@ const ChatFeed = () => {
       <Text className="title">Chat Room Name Here</Text>
       <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" className="chat-box" style={{ height: 250 }}>
         <ChatBubble />
-    </ScrollArea>
-    <TextInput
+      </ScrollArea>
+      <TextInput
         id="message"
         className="newMessage"
         placeholder="Enter Message"
         radius="xl"
         withAsterisk
-        />
+      />
     </div>
   )
 }

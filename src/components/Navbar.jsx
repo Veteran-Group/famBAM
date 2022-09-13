@@ -6,7 +6,7 @@ import './styles/navbar.css';
 const Navbar = () => {
 
   let {profilePic, setProfilePic, loginStatus, setLoginStatus} = useContext(AppContext);
-  
+
   let [opened, setOpened] = useState(false);
 
   let title = opened ? 'Close navigation' : 'Open navigation';

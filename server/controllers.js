@@ -1,7 +1,8 @@
-const { getPass } = require('./models');
+const { getPass, roomLogin, addRoomList } = require('./models');
 const db = require('../src/db/index.js');
 const express = require('express');
-const Promise = require(`bluebird`);
+const Promise = require('bluebird');
+const serverLib = require('./lib/newRoom.js');
 
 module.exports = {
   login: function(req, res) {
@@ -30,5 +31,13 @@ module.exports = {
           res.status(400).send(false);
         }
       })
-  }
+  },
+  createNewRoom: function(req, res) {
+    const { desiredRoomName, roomPass } = req.query;
+    // Generate room id
+    let id = serverLib.getRoomSerial(desiredRoomName);
+    // update roomList with room_id, room_name, and room_pass
+
+    // Create a new table using fambamschema.{room_id}
+  },
 }
