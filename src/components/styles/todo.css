@@ -30,3 +30,13 @@
 .header {
   margin-left: 5px;
 }
+
+.task:hover {
+  color: orange;
+  cursor: pointer;
+}
+
+.task {
+  margin-bottom: 3px;
+};
+
