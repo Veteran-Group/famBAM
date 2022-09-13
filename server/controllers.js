@@ -38,7 +38,7 @@ module.exports = {
       .then((response) => {
         let id = response[0].rows[0].room_id;
         if (id > 0) {
-          db.queryAsync(`SELECT user_name, user_message, time_stamp FROM fambamschema.guestRoom LIMIT 20;`)
+          db.queryAsync(`SELECT message_id, user_name, user_message, time_stamp FROM fambamschema.guestRoom LIMIT 20;`)
             .then((response) => {
               res.status(200).send(response[0].rows)
             })

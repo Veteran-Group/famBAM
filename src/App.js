@@ -8,7 +8,6 @@ import ChatFeed from './components/chat/ChatFeed.jsx';
 import Profile from './components/Profile.jsx';
 import Todo from './components/Todo.jsx';
 import axios from 'axios';
-import { api } from './config.js';
 
 export const AppContext = createContext();
 
@@ -40,16 +39,8 @@ function App() {
     setLoginStatus(loginStatus = false);
   }
 
-  useEffect(() => {
-    axios.get(`${api}/loadGuestRoom?roomName=${chatRoomCredentials.roomName}&roomPass=${chatRoomCredentials.roomPass}`)
-      .then((response) => {
-        console.log(response.data);
-        setChatLog(chatLog = [...chatLog, ...response.data])
-      })
-  }, [])
-
   return (
-    <AppContext.Provider value={{profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{chatRoomCredentials, setChatRoomCredentials, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
