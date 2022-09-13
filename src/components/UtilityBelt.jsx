@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { Text } from '@mantine/core'
+import { Text, Accordion, Button } from '@mantine/core'
 import './styles/utilityBelt.css';
 import { AppContext } from '../App';
+import { sendEmail } from '../lib/UtilityBelt/chatUtility';
 
 const UtilityBelt = () => {
 
@@ -10,7 +11,12 @@ const UtilityBelt = () => {
   if (mainView === 'chat') {
     return (
       <div className="utility-belt">
-        <Text>Chat Utility Belt</Text>
+        <Accordion>
+          <Accordion.Item value="contactas">
+            <Accordion.Control>Contacts</Accordion.Control>
+            <Accordion.Panel><Button onClick={() => {sendEmail()}}>Contact Dad</Button></Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
       </div>
     )
   } else if (mainView === 'video') {
