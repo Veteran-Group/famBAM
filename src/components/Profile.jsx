@@ -10,7 +10,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (profile.username === 'Dad') {
-      let imageNumber = 1;
       setProfileImage(profileImage = '../assets/dad_profile_pic/glitch-image-1661879698.png');
       // if (imageNumber === 1) {
       //   setTimeout(() => {

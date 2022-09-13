@@ -5,7 +5,7 @@ import './styles/navbar.css';
 
 const Navbar = () => {
 
-  let {profilePic, setProfilePic, loginStatus, setLoginStatus} = useContext(AppContext);
+  let {chatLog, profilePic, setProfilePic, loginStatus, setLoginStatus} = useContext(AppContext);
   let [opened, setOpened] = useState(false);
 
   let title = opened ? 'Close navigation' : 'Open navigation';
@@ -27,6 +27,8 @@ const Navbar = () => {
         size="xl"
       >
         <button onClick={() => { setLoginStatus(loginStatus = false) }}>Logout</button>
+        <button onClick={() => { console.log(chatLog)}}>Chat Log</button>
+        <button onClick={() => { console.log(new Date().getTime()) }}>Timestamp</button>
       </Drawer>
     </div>
   )
