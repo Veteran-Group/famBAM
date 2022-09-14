@@ -9,7 +9,7 @@ import { api } from '../config.js';
 
 const MainFeed = () => {
 
-  let {mainView, setMainView, chatLog, setChatLog, profile, chatRoomCredentials} = useContext(AppContext);
+  let {mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
   useEffect(() => {

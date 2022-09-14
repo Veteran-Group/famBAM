@@ -1,6 +1,7 @@
 import React from 'react';
 import { PasswordInput, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { createRoom } from '../lib/UtilityBelt/chatUtility.js';
 
 const CreateRoomForm = () => {
 
@@ -18,7 +19,7 @@ const CreateRoomForm = () => {
   });
 
   return (
-    <form onSubmit={NewRoomForm.onSubmit((values) => { console.log(values) })}>
+    <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(values.roomName, values.roomPass) })}>
       <TextInput label="Room Name" {...NewRoomForm.getInputProps('roomName')} withAsterisk />
       <PasswordInput label="Password" placeholder="Can be left blank" {...NewRoomForm.getInputProps('roomPass')} />
       <PasswordInput label="Confirm Password" {...NewRoomForm.getInputProps('confirmPass')} />

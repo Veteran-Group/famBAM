@@ -14,10 +14,6 @@ export const AppContext = createContext();
 
 function App() {
 
-  let[chatRoomCredentials, setChatRoomCredentials] = useState({
-    roomName: 'Guest Room',
-    roomPass:''
-  });
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [profile, setProfile] = useState({
     firstName: localStorage.getItem('firstName'),
@@ -26,6 +22,7 @@ function App() {
     role: localStorage.getItem('role'),
     status: localStorage.getItem('fambamLogin')
   });
+  let [chatName, setChatName] = useState('');
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
 
@@ -42,7 +39,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{mainView, setMainView, chatRoomCredentials, setChatRoomCredentials, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{chatName, setChatName, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">

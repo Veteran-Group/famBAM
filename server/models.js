@@ -8,4 +8,5 @@ module.exports = {
     room_name,
     room_pass
   ) VALUES($1, $2, $3);`,
+  changeCurrentRoom: `SELECT room_id FROM fambam.roomList WHERE room_name=$1 AND room_pass=$2`,
 }

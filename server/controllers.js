@@ -1,4 +1,4 @@
-const { getPass, roomLogin, addRoomList } = require('./models');
+const { getPass, roomLogin, addRoomList, changeCurrentRoom } = require('./models');
 const db = require('../src/db/index.js');
 const express = require('express');
 const Promise = require('bluebird');
@@ -39,15 +39,31 @@ module.exports = {
     let id = serverLib.getRoomSerial(desiredRoomName);
     // update roomList with room_id, room_name, and room_pass
     let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass] };
-    Promise.all(db.queryAsync(newRoomQuery))
-    // Create a new table using fambamschema.{room_id}
-    Promise.all(db.queryAsync(`CREATE TABLE fambamschema.${id} (
-      user_id INTEGER,
-      user_name VARCHAR,
-      user_message VARCHAR,
-      time_stamp VARCHAR,
-      date VARCHAR
-    )`))
-    res.status(200).send(`New room '${desiredRoomName}' has been created!`)
+    Promise.all(
+      db.queryAsync(newRoomQuery)
+      // Create a new table using fambamschema.{room_id}
+      .then(db.queryAsync(`CREATE TABLE fambamschema.${id} (
+        user_id INTEGER,
+        user_name VARCHAR,
+        user_message VARCHAR,
+        time_stamp VARCHAR,
+        date VARCHAR
+      )`))
+    )
+    res.status(200).send(id)
+  },
+  changeRoom: function(req, res) {
+    const { roomName, roomPass } = req.query;
+    let query = { text: changeCurrentRoom, values: [roomName, roomPass]};
+    Promise.all(() => {
+      db.queryAsync(query)
+        .then((response) => {
+          console.log(`ID: ${response[0].rows[0]}`)
+        })
+        .catch((err) => {
+          console.log(`Error in 'changeRoom' EP: ${err}`)
+        })
+    })
+
   },
 }
