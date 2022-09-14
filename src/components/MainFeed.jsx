@@ -9,7 +9,7 @@ import { api } from '../config.js';
 
 const MainFeed = () => {
 
-  let {mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
+  let {roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const MainFeed = () => {
         </Tabs.List>
 
         <Tabs.Panel value="chat" pt="md">
-            <Text className="title">Chat Room Name Here</Text>
+            <Text className="title">{roomInfo.roomName}</Text>
             <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" style={{ height: 520 }}>
               <ChatBubble />
             </ScrollArea>

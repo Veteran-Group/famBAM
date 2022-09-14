@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { PasswordInput, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { createRoom } from '../lib/UtilityBelt/chatUtility.js';
+import { createRoom, setProfileValue } from '../lib/UtilityBelt/chatUtility.js';
+import { AppContext } from '../App.js';
 
 const CreateRoomForm = () => {
+
+  let { roomInfo, setRoomInfo, profile, setProfile, chatLog, setChatLog } = useContext(AppContext);
 
   let NewRoomForm = useForm({
     initialValues: {
@@ -19,11 +22,15 @@ const CreateRoomForm = () => {
   });
 
   return (
-    <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(values.roomName, values.roomPass) })}>
+    <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(profile.id, values.roomName, values.roomPass, (response) => {
+      setRoomInfo(roomInfo = response);
+      setProfile(profile = setProfileValue(profile, 'myRooms', response));
+      setChatLog(chatLog = []);
+    })})}>
       <TextInput label="Room Name" {...NewRoomForm.getInputProps('roomName')} withAsterisk />
       <PasswordInput label="Password" placeholder="Can be left blank" {...NewRoomForm.getInputProps('roomPass')} />
       <PasswordInput label="Confirm Password" {...NewRoomForm.getInputProps('confirmPass')} />
-      <Button type="submit" style={{ marginTop: 10 }}>Submit</Button>
+      <Button type="submit" style={{ marginTop: 10 }} >Submit</Button>
     </form>
   )
 }

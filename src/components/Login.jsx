@@ -17,10 +17,18 @@ const Login = () => {
     axios.get(`${api}/login?username=${user}&pass=${pass}`)
       .then((response) => {
         let login = response.data;
-        checkStatus(login, `Invalid Login`,(status) => {
+        checkStatus(login, `Invalid Login`, (status) => {
+          saveStatus(login);
           setLoginStatus(loginStatus = status);
-          setProfile(profile = login);
-          saveStatus(profile);
+          setProfile(profile = {
+            id: login.id,
+            firstName: login.firstName,
+            lastName: login.lastName,
+            username: login.username,
+            role: login.role,
+            status: login.status,
+            myRooms: []
+          });
         });
       })
       .catch((err) => {console.log(`Error in reception: ${err}`)})

@@ -16,13 +16,18 @@ function App() {
 
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [profile, setProfile] = useState({
+    id: localStorage.getItem('userId'),
     firstName: localStorage.getItem('firstName'),
     lastName: localStorage.getItem('lastName'),
     username: localStorage.getItem('username'),
     role: localStorage.getItem('role'),
-    status: localStorage.getItem('fambamLogin')
+    status: localStorage.getItem('fambamLogin'),
+    myRooms: []
   });
-  let [chatName, setChatName] = useState('');
+  let [roomInfo, setRoomInfo] = useState({
+    roomName: 'Default',
+    id: '001'
+  });
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
 
@@ -39,7 +44,7 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{chatName, setChatName, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">

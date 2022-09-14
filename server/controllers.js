@@ -13,10 +13,11 @@ module.exports = {
       .then((response) => {
         if (response[0].rows.length === 1) {
           let id = response[0].rows[0].user_id;
-          db.queryAsync(`SELECT f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
+          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
             .then((response) => {
               let profile = response[0].rows[0];
               let user = {
+                id: profile.user_id,
                 firstName: profile.f_name,
                 lastName: profile.l_name,
                 username: profile.username,
@@ -34,11 +35,11 @@ module.exports = {
       })
   },
   createNewRoom: function(req, res) {
-    const { desiredRoomName, roomPass } = req.query;
+    const { desiredRoomName, roomPass, owner } = req.query;
     // Generate room id
     let id = serverLib.getRoomSerial(desiredRoomName);
     // update roomList with room_id, room_name, and room_pass
-    let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass] };
+    let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass, owner] };
     Promise.all(
       db.queryAsync(newRoomQuery)
       // Create a new table using fambamschema.{room_id}
@@ -49,21 +50,23 @@ module.exports = {
         time_stamp VARCHAR,
         date VARCHAR
       )`))
+      .then()
     )
-    res.status(200).send(id)
+    let answer = { roomName: desiredRoomName, id: id };
+    res.status(200).send(answer)
   },
-  changeRoom: function(req, res) {
-    const { roomName, roomPass } = req.query;
-    let query = { text: changeCurrentRoom, values: [roomName, roomPass]};
-    Promise.all(() => {
-      db.queryAsync(query)
-        .then((response) => {
-          console.log(`ID: ${response[0].rows[0]}`)
-        })
-        .catch((err) => {
-          console.log(`Error in 'changeRoom' EP: ${err}`)
-        })
-    })
-
-  },
+  // Will Develop Later
+  // changeRoom: function(req, res) {
+  //   const { roomName, roomPass } = req.query;
+  //   let query = { text: changeCurrentRoom, values: [roomName, roomPass]};
+  //   Promise.all(() => {
+  //     db.queryAsync(query)
+  //       .then((response) => {
+  //         console.log(`ID: ${response[0].rows[0]}`)
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Error in 'changeRoom' EP: ${err}`)
+  //       })
+  //   })
+  // },
 }
