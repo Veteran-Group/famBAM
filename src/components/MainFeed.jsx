@@ -57,15 +57,14 @@ const MainFeed = () => {
 
         <Tabs.Panel value="chat" pt="md">
             <Text className="title">Chat Room Name Here</Text>
-            <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" className="chat-box" style={{ height: 250 }}>
+            <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" style={{ height: 520 }}>
               <ChatBubble />
             </ScrollArea>
             <TextInput
               id="message"
-              className="newMessage"
+              className="new-message"
               placeholder="Enter Message"
               radius="xl"
-              withAsterisk
             />
         </Tabs.Panel>
 

@@ -1,28 +1,22 @@
 .main-window {
-  margin-left: 31.5vw;
-  margin-right: 31.5vw;
+  position: absolute;
+  margin-left: 30vw;
+  margin-right: 30vw;
+  width: 40vw;
+  height: 80vh;
   margin-top: 3vh;
-  min-width: 700px;
-  min-height: 650px;
-  max-height: 650px;
+  margin-bottom: 3vh;
   border-radius: 10px;
 }
 
-.chat-box {
-  overflow: hidden;
-  min-width: 710px;
-  max-width: 710px;
-  min-height: 640px;
-  max-height: 640px;
-}
-
-.chat-box .newMessage {
+.chat-box .new-message {
   margin: 10px;
   margin-top: 100%;
 }
 
 .chat-feed {
   margin: 10px;
+  height: 100%;
 }
 
 .chat-bubble-self {
@@ -33,6 +27,7 @@
   border-bottom-right-radius: 10px;
   background-color: blanchedalmond;
   width:fit-content;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .chat-bubble-self .username {
@@ -72,6 +67,7 @@
   border-bottom-right-radius: 10px;
   background-color: aqua;
   width:fit-content;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .chat-bubble-others .username {
