@@ -23,6 +23,7 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
     db.queryAsync(`CREATE TABLE fambamschema.roomList (
       room_id VARCHAR,
       room_name VARCHAR,
-      room_pass VARCHAR
+      room_pass VARCHAR,
+      owner_id INTEGER
     )`)
   })

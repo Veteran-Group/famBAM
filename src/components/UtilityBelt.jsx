@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
-import { Text, Accordion, Button } from '@mantine/core'
+import { Text, Accordion, Button, TextInput } from '@mantine/core'
 import './styles/utilityBelt.css';
 import { AppContext } from '../App';
 import { sendEmail } from '../lib/UtilityBelt/chatUtility';
+import { useForm } from '@mantine/form';
+import { newRoomForm } from '../lib/UtilityBelt/chatUtility.js';
+import CreateRoomForm from './CreateRoomForm.jsx';
 
 const UtilityBelt = () => {
 
@@ -14,7 +17,21 @@ const UtilityBelt = () => {
         <Accordion>
           <Accordion.Item value="contactas">
             <Accordion.Control>Contacts</Accordion.Control>
-            <Accordion.Panel><Button onClick={() => {sendEmail()}}>Contact Dad</Button></Accordion.Panel>
+            <Accordion.Panel>
+              <Text>Contact Buttons Will Go Here</Text>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="enter-room">
+            <Accordion.Control>Enter Room</Accordion.Control>
+            <Accordion.Panel>
+              <Text>Form to enter another room here</Text>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="create-room">
+            <Accordion.Control>Create Room</Accordion.Control>
+            <Accordion.Panel>
+              <CreateRoomForm />
+            </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
       </div>

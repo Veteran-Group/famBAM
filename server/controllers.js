@@ -1,4 +1,4 @@
-const { getPass, roomLogin, addRoomList } = require('./models');
+const { getPass, roomLogin, addRoomList, changeCurrentRoom } = require('./models');
 const db = require('../src/db/index.js');
 const express = require('express');
 const Promise = require('bluebird');
@@ -13,10 +13,11 @@ module.exports = {
       .then((response) => {
         if (response[0].rows.length === 1) {
           let id = response[0].rows[0].user_id;
-          db.queryAsync(`SELECT f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
+          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
             .then((response) => {
               let profile = response[0].rows[0];
               let user = {
+                id: profile.user_id,
                 firstName: profile.f_name,
                 lastName: profile.l_name,
                 username: profile.username,
@@ -34,20 +35,38 @@ module.exports = {
       })
   },
   createNewRoom: function(req, res) {
-    const { desiredRoomName, roomPass } = req.query;
+    const { desiredRoomName, roomPass, owner } = req.query;
     // Generate room id
     let id = serverLib.getRoomSerial(desiredRoomName);
     // update roomList with room_id, room_name, and room_pass
-    let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass] };
-    Promise.all(db.queryAsync(newRoomQuery))
-    // Create a new table using fambamschema.{room_id}
-    Promise.all(db.queryAsync(`CREATE TABLE fambamschema.${id} (
-      user_id INTEGER,
-      user_name VARCHAR,
-      user_message VARCHAR,
-      time_stamp VARCHAR,
-      date VARCHAR
-    )`))
-    res.status(200).send(`New room '${desiredRoomName}' has been created!`)
+    let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass, owner] };
+    Promise.all(
+      db.queryAsync(newRoomQuery)
+      // Create a new table using fambamschema.{room_id}
+      .then(db.queryAsync(`CREATE TABLE fambamschema.${id} (
+        user_id INTEGER,
+        user_name VARCHAR,
+        user_message VARCHAR,
+        time_stamp VARCHAR,
+        date VARCHAR
+      )`))
+      .then()
+    )
+    let answer = { roomName: desiredRoomName, id: id };
+    res.status(200).send(answer)
   },
+  // Will Develop Later
+  // changeRoom: function(req, res) {
+  //   const { roomName, roomPass } = req.query;
+  //   let query = { text: changeCurrentRoom, values: [roomName, roomPass]};
+  //   Promise.all(() => {
+  //     db.queryAsync(query)
+  //       .then((response) => {
+  //         console.log(`ID: ${response[0].rows[0]}`)
+  //       })
+  //       .catch((err) => {
+  //         console.log(`Error in 'changeRoom' EP: ${err}`)
+  //       })
+  //   })
+  // },
 }

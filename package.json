@@ -23,6 +23,7 @@
     "dotenv": "^16.0.2",
     "embla-carousel-react": "^7.0.2",
     "express": "^4.18.1",
+    "git": "^0.1.5",
     "morgan": "^1.10.0",
     "pg": "^8.8.0",
     "react": "^18.2.0",

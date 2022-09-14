@@ -8,7 +8,7 @@ const env = process.env;
 router.use(allowServerAccessBy());
 
 router.get(`/login`, controller.login);
+//router.get(`/changeRoom`, controller.changeRoom);
 router.post(`/createNewRoom`, controller.createNewRoom);
-router.post(`/sendTextDad`, controller.sendTextDad);
 
 module.exports = router;

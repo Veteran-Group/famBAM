@@ -2,10 +2,11 @@ import React, { useState, useContext } from 'react';
 import { Burger, Affix, Text, Drawer } from '@mantine/core';
 import { AppContext } from '../App';
 import './styles/navbar.css';
+import { logout } from '../lib/login/login.js';
 
 const Navbar = () => {
 
-  let {profilePic, setProfilePic, loginStatus, setLoginStatus} = useContext(AppContext);
+  let {profilePic, setProfilePic, loginStatus, setLoginStatus, profile} = useContext(AppContext);
 
   let [opened, setOpened] = useState(false);
 
@@ -27,7 +28,12 @@ const Navbar = () => {
         padding="xl"
         size="xl"
       >
-        <button onClick={() => { setLoginStatus(loginStatus = false) }}>Logout</button>
+        <button onClick={() => {
+          for (let key in profile) {
+            profile[key] = null;
+          };
+          setLoginStatus(loginStatus = logout()); }}>Logout</button>
+        <button onClick={() => { console.log(profile) }}>Profile</button>
       </Drawer>
     </div>
   )

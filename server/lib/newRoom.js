@@ -6,9 +6,9 @@ module.exports = {
     let minutes = today.getMinutes();
     let hours = today.getHours();
     let year = today.getFullYear();
-    let name = roomName.split(' ').join('-');
+    let name = roomName.split(' ').join('_');
 
-    let id = `${year}-${name}-${hours}:${minutes}:${seconds}:${miliseconds}`;
+    let id = `${name}_${hours}_${minutes}_${seconds}_${miliseconds}_${year}`;
 
     return id;
   }
