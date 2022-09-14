@@ -9,6 +9,7 @@ import planes from './styles/ComponentAssets/planes.jpeg'
 
 const Todo = () => {
   const [newToDo, setNewToDo] = useState('');
+  const [instructions, setInstructions] = useState('')
   const [opened, setOpened] = useState(false);
   const [background, setBackground] = useState(null);
 
@@ -50,14 +51,12 @@ const Todo = () => {
     setBackground(event.target.value)
   };
 
-  const handleAddToDo = () => {
+  const handleAddToDo = (event) => {
+    event.preventDefault();
     if (newToDo.length > 0) {
       setToDoList((prevtoDoList) => {
-        return [...prevtoDoList, newToDo]
+        return [...prevtoDoList, {task: newToDo, instructions: instructions}]
       })
-    } else {
-      //need better way than alert to handle
-      alert('Please enter a value')
     }
   };
 
@@ -65,24 +64,37 @@ const Todo = () => {
     setNewToDo(event.target.value)
   };
 
+  const toDoInstructions = (event) => {
+    setInstructions(event.target.value)
+  };
+
   return (
     <div style={{backgroundImage: `url(${background})`}}className="todo">
       <div>
       <Text className='header' weight={700}> To do list </Text>
-      <Button
-      className='addButton'
-      onClick={handleAddToDo}
-      color="green" radius="md"
-      size="xs"
-      compact>
-        Add
-      </Button>
       </div>
-      <input
-      required
-      className='input'
-      onChange={toDoInput}
-      />
+      <form onSubmit={handleAddToDo}>
+        <input
+        placeholder='Enter a task'
+        required
+        className='input'
+        onChange={toDoInput}
+        />
+        <input
+        placeholder='Enter task instructions'
+        required
+        className='input'
+        onChange={toDoInstructions}
+        />
+      <Button
+        className='addButton'
+        type="submit"
+        color="green" radius="md"
+        size="xs"
+        compact>
+          Add
+        </Button>
+      </form>
       <div>{toDo}</div>
 
             {/* Flexbox? */}
