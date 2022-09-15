@@ -86,4 +86,7 @@ module.exports = {
         console.log(`Error in controller/chatLogin EP: ${err}`)
       })
   },
+  newToDo: function(req, res) {
+    
+  },
 }

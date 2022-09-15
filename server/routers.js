@@ -12,5 +12,6 @@ router.get(`/getChat`, controller.getChat);
 router.get(`/createNewRoom`, controller.createNewRoom);
 router.get(`/chatLogin`, controller.chatLogin);
 router.post(`/newMessage`, controller.newMessage);
+router.post(`/toDo`, controller.newToDo)
 
 module.exports = router;

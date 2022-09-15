@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { Text } from '@mantine/core';
 import './styles/todo.css';
 import { Button, Collapse } from '@mantine/core';
+import axios from 'axios';
+import { api } from '../config.js';
+
+//background images
 import kittens from './styles/ComponentAssets/kittens.jpeg';
 import puppies from './styles/ComponentAssets/puppies.jpeg';
 import dinosaurs from './styles/ComponentAssets/dinosaurs.jpeg'
-import planes from './styles/ComponentAssets/planes.jpeg'
+import planes from './styles/ComponentAssets/planes.jpeg';
+
 
 const Todo = () => {
   const [newToDo, setNewToDo] = useState('');
@@ -13,10 +18,7 @@ const Todo = () => {
   const [opened, setOpened] = useState(false);
   const [background, setBackground] = useState(null);
 
-  const [toDoList, setToDoList] = useState([
-    {task: 'Meow', instructions: 'Like a cat'},
-    {task: 'Run', instructions: 'Use your legs'},
-    {task: 'Purr', instructions: 'You gotta ask a cat how to do this because I dunno how they do that for real.'}]);
+  const [toDoList, setToDoList] = useState([]);
 
   const toDo = toDoList.map((toDo, index) =>
   //can handle this better if using actual identifier for key.
@@ -53,11 +55,21 @@ const Todo = () => {
 
   const handleAddToDo = (event) => {
     event.preventDefault();
-    if (newToDo.length > 0) {
+
+    axios.post(`${api}/toDo`, {
+      task: newToDo,
+      instruction: instructions
+    })
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+
       setToDoList((prevtoDoList) => {
         return [...prevtoDoList, {task: newToDo, instructions: instructions}]
       })
-    }
   };
 
   const toDoInput = (event) => {
@@ -94,18 +106,21 @@ const Todo = () => {
         compact>
           Add
         </Button>
+        {toDoList.length === 0 && <Text>-No Current Tasks!-</Text>}
       </form>
       <div>{toDo}</div>
 
             {/* Flexbox? */}
-            <Text size='sm'>Background:</Text>
-      <select onChange={handleSelect}>
-        <option value='white'>Nothing</option>
-        <option value={kittens}>Kittens</option>
-        <option value={puppies}>Puppies</option>
-        <option value={dinosaurs}>Dinosaurs</option>
-        <option value={planes}>Planes</option>
-      </select>
+      <div className='select'>
+        <Text size='sm'>Background:</Text>
+        <select onChange={handleSelect}>
+          <option value='white'>Nothing</option>
+          <option value={kittens}>Kittens</option>
+          <option value={puppies}>Puppies</option>
+          <option value={dinosaurs}>Dinosaurs</option>
+          <option value={planes}>Planes</option>
+        </select>
+      </div>
     </div>
   )
 }
