@@ -27,3 +27,12 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
       owner_id INTEGER
     )`)
   })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.a001 (
+      user_id INTEGER,
+      user_name VARCHAR,
+      user_message VARCHAR,
+      time_stamp VARCHAR,
+      date VARCHAR
+    )`)
+  })

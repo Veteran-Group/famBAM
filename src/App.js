@@ -9,6 +9,7 @@ import Profile from './components/Profile.jsx';
 import Todo from './components/Todo.jsx';
 import axios from 'axios';
 import UtilityBelt from './components/UtilityBelt.jsx';
+import { api } from './config.js';
 
 export const AppContext = createContext();
 
@@ -25,8 +26,8 @@ function App() {
     myRooms: []
   });
   let [roomInfo, setRoomInfo] = useState({
-    roomName: 'Default',
-    id: '001'
+    roomName: 'Home',
+    id: 'a001'
   });
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
@@ -42,6 +43,13 @@ function App() {
     })
     setLoginStatus(loginStatus = false);
   }
+
+  useEffect(() => {
+    axios.get(`${api}/getChat?cid=${roomInfo.id}`)
+      .then((response) => {
+        setChatLog(chatLog = response.data);
+      })
+  }, []);
 
   return (
     <AppContext.Provider value={{roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>

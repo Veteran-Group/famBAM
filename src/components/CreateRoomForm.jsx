@@ -23,13 +23,22 @@ const CreateRoomForm = () => {
 
   return (
     <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(profile.id, values.roomName, values.roomPass, (response) => {
-      setRoomInfo(roomInfo = response);
+      let elementIds = ['un', 'pa', 'cp'];
+      setRoomInfo(roomInfo = {
+        roomName: response.roomName,
+        id: response.id
+      })
       setProfile(profile = setProfileValue(profile, 'myRooms', response));
       setChatLog(chatLog = []);
+      NewRoomForm.setValues({
+        roomName: '',
+        roomPass: '',
+        confirmPass: ''
+      })
     })})}>
-      <TextInput label="Room Name" {...NewRoomForm.getInputProps('roomName')} withAsterisk />
-      <PasswordInput label="Password" placeholder="Can be left blank" {...NewRoomForm.getInputProps('roomPass')} />
-      <PasswordInput label="Confirm Password" {...NewRoomForm.getInputProps('confirmPass')} />
+      <TextInput id="un" label="Room Name" {...NewRoomForm.getInputProps('roomName')} withAsterisk />
+      <PasswordInput id="pa" label="Password" placeholder="Can be left blank" {...NewRoomForm.getInputProps('roomPass')} />
+      <PasswordInput id="cp" label="Confirm Password" {...NewRoomForm.getInputProps('confirmPass')} />
       <Button type="submit" style={{ marginTop: 10 }} >Submit</Button>
     </form>
   )

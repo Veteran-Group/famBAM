@@ -32,7 +32,7 @@ const MainFeed = () => {
     return () => {
       document.removeEventListener("keydown", keyDownHandler);
     };
-  }, []);
+  }, [roomInfo]);
 
   let enterMessage = () => {
     let time = getTime();
@@ -43,9 +43,16 @@ const MainFeed = () => {
       time_stamp: time,
       date: getTodayDate()
     };
-
+    axios.post(`${api}/newMessage?uid=${profile.id}&cid=${roomInfo.id}&un=${newMessage.user_name}&um=${newMessage.user_message}&ts=${newMessage.time_stamp}&da=${newMessage.date}`);
     setChatLog(chatLog = [...chatLog, newMessage]);
   }
+
+  useEffect(() => {
+    axios.get(`${api}/getChat?cid=${roomInfo.id}`)
+      .then((response) => {
+        setChatLog(chatLog = response.data);
+      })
+  }, [roomInfo])
 
   return (
     <div className="main-window">

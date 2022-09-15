@@ -3,10 +3,12 @@ import { Burger, Affix, Text, Drawer } from '@mantine/core';
 import { AppContext } from '../App';
 import './styles/navbar.css';
 import { logout } from '../lib/login/login.js';
+import axios from 'axios';
+import { api } from '../config.js';
 
 const Navbar = () => {
 
-  let {profilePic, setProfilePic, loginStatus, setLoginStatus, profile} = useContext(AppContext);
+  let {chatLog, roomInfo, profilePic, setProfilePic, loginStatus, setLoginStatus, profile} = useContext(AppContext);
 
   let [opened, setOpened] = useState(false);
 
@@ -34,6 +36,15 @@ const Navbar = () => {
           };
           setLoginStatus(loginStatus = logout()); }}>Logout</button>
         <button onClick={() => { console.log(profile) }}>Profile</button>
+        <button onClick={() => {
+          console.log(`Room Info: ${JSON.stringify(roomInfo)}`);
+          axios.get(`${api}/getChat?cid=${roomInfo.id}`)
+            .then((response) => {
+              console.log(response.data);
+            })
+        }}>get chat</button>
+        <button onClick={() => { console.log(`chatLog: ${JSON.stringify(chatLog)}`) }}>chatLog Var</button>
+        <button onClick={() => { console.log(JSON.stringify(roomInfo)) }}>room info</button>
       </Drawer>
     </div>
   )

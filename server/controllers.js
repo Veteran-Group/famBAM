@@ -50,23 +50,40 @@ module.exports = {
         time_stamp VARCHAR,
         date VARCHAR
       )`))
-      .then()
     )
     let answer = { roomName: desiredRoomName, id: id };
     res.status(200).send(answer)
   },
-  // Will Develop Later
-  // changeRoom: function(req, res) {
-  //   const { roomName, roomPass } = req.query;
-  //   let query = { text: changeCurrentRoom, values: [roomName, roomPass]};
-  //   Promise.all(() => {
-  //     db.queryAsync(query)
-  //       .then((response) => {
-  //         console.log(`ID: ${response[0].rows[0]}`)
-  //       })
-  //       .catch((err) => {
-  //         console.log(`Error in 'changeRoom' EP: ${err}`)
-  //       })
-  //   })
-  // },
+  newMessage: function(req, res) {
+    const { uid, cid, un, um, ts, da } = req.query;
+    db.queryAsync(`INSERT INTO fambamschema.${cid} (
+      user_id,
+      user_name,
+      user_message,
+      time_stamp,
+      date
+    ) VALUES($1, $2, $3, $4, $5)`, [uid, un, um, ts, da])
+    .then(() => {
+      res.status(200).send('Message Sent');
+    })
+  },
+  getChat: function(req, res) {
+    const { cid } = req.query;
+    db.queryAsync(`SELECT * FROM fambamschema.${cid}`)
+      .then((response) => {
+        res.status(200).send(response[0].rows);
+      })
+  },
+  chatLogin: function(req, res) {
+    let { roomName, roomPass } = req.query;
+    const query = { text: roomLogin, values: [roomName, roomPass] };
+    db.queryAsync(query)
+      .then((response) => {
+        let answer = { roomName: roomName, id: response[0].rows[0].room_id };
+        res.status(200).send(answer)
+      })
+      .catch((err) => {
+        console.log(`Error in controller/chatLogin EP: ${err}`)
+      })
+  },
 }

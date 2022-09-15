@@ -6,6 +6,7 @@ import { sendEmail } from '../lib/UtilityBelt/chatUtility';
 import { useForm } from '@mantine/form';
 import { newRoomForm } from '../lib/UtilityBelt/chatUtility.js';
 import CreateRoomForm from './CreateRoomForm.jsx';
+import EnterRoomForm from './EnterRoomForm.jsx';
 
 const UtilityBelt = () => {
 
@@ -24,7 +25,7 @@ const UtilityBelt = () => {
           <Accordion.Item value="enter-room">
             <Accordion.Control>Enter Room</Accordion.Control>
             <Accordion.Panel>
-              <Text>Form to enter another room here</Text>
+              <EnterRoomForm />
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="create-room">
