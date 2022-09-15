@@ -44,6 +44,7 @@ const Navbar = () => {
             })
         }}>get chat</button>
         <button onClick={() => { console.log(`chatLog: ${JSON.stringify(chatLog)}`) }}>chatLog Var</button>
+        <button onClick={() => { console.log(JSON.stringify(roomInfo)) }}>room info</button>
       </Drawer>
     </div>
   )

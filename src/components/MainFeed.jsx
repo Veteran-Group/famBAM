@@ -52,7 +52,7 @@ const MainFeed = () => {
       .then((response) => {
         setChatLog(chatLog = response.data);
       })
-  }, [])
+  }, [roomInfo])
 
   return (
     <div className="main-window">

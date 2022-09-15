@@ -10,7 +10,7 @@ router.use(allowServerAccessBy());
 router.get(`/login`, controller.login);
 router.get(`/getChat`, controller.getChat);
 router.get(`/createNewRoom`, controller.createNewRoom);
-//router.get(`/changeRoom`, controller.changeRoom);
+router.get(`/chatLogin`, controller.chatLogin);
 router.post(`/newMessage`, controller.newMessage);
 
 module.exports = router;

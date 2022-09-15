@@ -74,18 +74,16 @@ module.exports = {
         res.status(200).send(response[0].rows);
       })
   },
-  // Will Develop Later
-  // changeRoom: function(req, res) {
-  //   const { roomName, roomPass } = req.query;
-  //   let query = { text: changeCurrentRoom, values: [roomName, roomPass]};
-  //   Promise.all(() => {
-  //     db.queryAsync(query)
-  //       .then((response) => {
-  //         console.log(`ID: ${response[0].rows[0]}`)
-  //       })
-  //       .catch((err) => {
-  //         console.log(`Error in 'changeRoom' EP: ${err}`)
-  //       })
-  //   })
-  // },
+  chatLogin: function(req, res) {
+    let { roomName, roomPass } = req.query;
+    const query = { text: roomLogin, values: [roomName, roomPass] };
+    db.queryAsync(query)
+      .then((response) => {
+        let answer = { roomName: roomName, id: response[0].rows[0].room_id };
+        res.status(200).send(answer)
+      })
+      .catch((err) => {
+        console.log(`Error in controller/chatLogin EP: ${err}`)
+      })
+  },
 }
