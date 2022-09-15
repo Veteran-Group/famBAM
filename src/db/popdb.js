@@ -28,6 +28,13 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
       username,
       pass) VALUES($1, $2, $3)`, [2, 'Erica', `${process.env.mompass}`])
   })
+  .then(() => {
+    db.queryAsync(`INSERT INTO fambamschema.roomList (
+      room_id,
+      room_name,
+      owner_id
+    ) VALUES ($1, $2, $3)`, ['a001', 'Home', 1])
+  })
 
 
   // This will generate 30 chat messages from 'Mom'and 'Dad' into a table of your choosing

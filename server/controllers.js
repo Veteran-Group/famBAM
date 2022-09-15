@@ -50,10 +50,29 @@ module.exports = {
         time_stamp VARCHAR,
         date VARCHAR
       )`))
-      .then()
     )
     let answer = { roomName: desiredRoomName, id: id };
     res.status(200).send(answer)
+  },
+  newMessage: function(req, res) {
+    const { uid, cid, un, um, ts, da } = req.query;
+    db.queryAsync(`INSERT INTO fambamschema.${cid} (
+      user_id,
+      user_name,
+      user_message,
+      time_stamp,
+      date
+    ) VALUES($1, $2, $3, $4, $5)`, [uid, un, um, ts, da])
+    .then(() => {
+      res.status(200).send('Message Sent');
+    })
+  },
+  getChat: function(req, res) {
+    const { cid } = req.query;
+    db.queryAsync(`SELECT * FROM fambamschema.${cid}`)
+      .then((response) => {
+        res.status(200).send(response[0].rows);
+      })
   },
   // Will Develop Later
   // changeRoom: function(req, res) {

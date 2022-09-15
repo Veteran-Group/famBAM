@@ -8,7 +8,9 @@ const env = process.env;
 router.use(allowServerAccessBy());
 
 router.get(`/login`, controller.login);
+router.get(`/getChat`, controller.getChat);
+router.get(`/createNewRoom`, controller.createNewRoom);
 //router.get(`/changeRoom`, controller.changeRoom);
-router.post(`/createNewRoom`, controller.createNewRoom);
+router.post(`/newMessage`, controller.newMessage);
 
 module.exports = router;

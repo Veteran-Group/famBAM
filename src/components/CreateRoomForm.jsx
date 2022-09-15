@@ -23,7 +23,11 @@ const CreateRoomForm = () => {
 
   return (
     <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(profile.id, values.roomName, values.roomPass, (response) => {
-      setRoomInfo(roomInfo = response);
+      console.log(response);
+      setRoomInfo(roomInfo = {
+        roomName: response.roomName,
+        id: response.id
+      })
       setProfile(profile = setProfileValue(profile, 'myRooms', response));
       setChatLog(chatLog = []);
     })})}>

@@ -2,7 +2,7 @@ import axios from "axios"
 import { api } from '../../config.js';
 
 export const createRoom = (ownerId, roomName, roomPass, callback) => {
-  axios.post(`${api}/createNewRoom?desiredRoomName=${roomName}&roomPass=${roomPass}&owner=${ownerId}`)
+  axios.get(`${api}/createNewRoom?desiredRoomName=${roomName}&roomPass=${roomPass}&owner=${ownerId}`)
     .then((response) => {
       callback(response.data)
     })
