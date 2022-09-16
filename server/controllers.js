@@ -87,6 +87,20 @@ module.exports = {
       })
   },
   newToDo: function(req, res) {
-    
+    const {user, id, task, instructions} = req.query;
+    db.queryAsync(`INSERT INTO fambamschema.${user}_${id} (
+      task,
+      instructions
+    ) VALUES($1, $2)`, [task, instructions] )
+    .then(() => {
+      res.status(200).send('ToDo Added');
+    })
   },
+  getToDo: function(req, res) {
+    const { user, id } = req.query;
+    db.queryAsync(`SELECT * FROM fambamschema.${user}_${id}`)
+    .then((response) => {
+      res.status(200).send(response[0].rows);
+    })
+  }
 }
