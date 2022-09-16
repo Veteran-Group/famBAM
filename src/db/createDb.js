@@ -36,3 +36,15 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
       date VARCHAR
     )`)
   })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.Dad_1 (
+      task VARCHAR,
+      instructions VARCHAR
+    )`)
+  })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.Mom_2 (
+      task VARCHAR,
+      instructions VARCHAR
+    )`)
+  })
