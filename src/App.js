@@ -5,7 +5,7 @@ import Login from './components/Login.jsx';
 import { saveStatus, logout } from './lib/login/login.js';
 import Navbar from './components/Navbar';
 import MainFeed from './components/MainFeed.jsx';
-import Profile from './components/Profile.jsx';
+import Profile from './components/Profile/Profile.jsx';
 import Todo from './components/Todo.jsx';
 import axios from 'axios';
 import UtilityBelt from './components/UtilityBelt.jsx';

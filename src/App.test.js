@@ -1,4 +1,4 @@
-import { saveStatus, checkStatus } from '../login/login.js';
+import { saveStatus, checkStatus } from './lib/login/login.js';
 
 describe(`./src/lib/login/login.js`, () => {
   describe(`saveStatus`, () => {
