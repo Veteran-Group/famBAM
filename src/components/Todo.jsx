@@ -139,9 +139,15 @@ const Todo = () => {
       <div>{toDo}</div>
 
       <Modal
+        closeOnClickOutside
+        closeOnEscape
         opened={modalOpen}
         onClose={() => setModalOpen(false)}
         title="Have you Completed your task?"
+        transition="fade"
+        transitionDuration={600}
+        transitionTimingFunction="ease"
+
       >
         <Button
         className="modalYes"
@@ -157,7 +163,7 @@ const Todo = () => {
             {/* Flexbox? */}
       <div className='select'>
         <Text size='sm'>Background:</Text>
-        <select className='select' onChange={() => setModalOpen(true)}>
+        <select className='select' onChange={handleSelect}>
           <option value='white'>Nothing</option>
           <option value={kittens}>Kittens</option>
           <option value={puppies}>Puppies</option>
