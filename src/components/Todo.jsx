@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Text } from '@mantine/core';
 import './styles/todo.css';
-import { Button, Collapse } from '@mantine/core';
+import { Button, Collapse, Group, Modal } from '@mantine/core';
 import axios from 'axios';
 import { api } from '../config.js';
 import {AppContext} from '../App.js';
@@ -17,8 +17,10 @@ const Todo = () => {
 
   const [newToDo, setNewToDo] = useState('');
   const [instructions, setInstructions] = useState('')
-  const [opened, setOpened] = useState(false);
   const [background, setBackground] = useState(null);
+  const [opened, setOpened] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   const [toDoList, setToDoList] = useState([]);
 
@@ -27,7 +29,54 @@ const Todo = () => {
       .then((response) => {
         setToDoList(response.data);
       })
-  }, [toDoList])
+  }, [])
+
+   //ON CLICKING ADD BUTTON
+   const handleAddToDo = (event) => {
+    event.preventDefault();
+
+    axios.post(`${api}/newToDo?user=${profile.username}&id=${profile.id}&task=${newToDo}&instruction=${instructions}&taskId=${Math.random().toString()}`)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+
+      setToDoList((prevtoDoList) => {
+        return [...prevtoDoList, {task: newToDo, instructions: instructions}]
+      })
+  };
+
+      //ON CLICKING CHECK BOX INPUT
+      const handleComplete = () => {
+
+        axios.put(`${api}/completeToDo?user${profile.username}&id=${profile.id}&taskId=${toDoList.id}`)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+
+      };
+
+      const confirmComplete = () => {
+        setModalOpen(true);
+      };
+
+  const toDoInput = (event) => {
+    setNewToDo(event.target.value)
+  };
+
+  const toDoInstructions = (event) => {
+    setInstructions(event.target.value)
+  };
+
+  const handleSelect = (event) => {
+    event.preventDefault()
+    setBackground(event.target.value)
+  };
 
   const toDo = toDoList.map((toDo, index) =>
   //can handle this better if using actual identifier for key.
@@ -47,44 +96,16 @@ const Todo = () => {
      compact>
       Edit
     </Button>
-    <Button
+    <input type='checkbox' onClick={confirmComplete}/>
+    {/* <Button
      className='button'
      color="red"
      radius="md"
      size="xs"
      compact>
       Delete
-    </Button>
+    </Button> */}
   </ul>);
-
-  const handleSelect = (event) => {
-    event.preventDefault()
-    setBackground(event.target.value)
-  };
-
-  const handleAddToDo = (event) => {
-    event.preventDefault();
-
-    axios.post(`${api}/newToDo?user=${profile.username}&id=${profile.id}&task=${newToDo}&instruction=${instructions}`)
-    .then((response) => {
-      console.log(response)
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-
-      setToDoList((prevtoDoList) => {
-        return [...prevtoDoList, {task: newToDo, instructions: instructions}]
-      })
-  };
-
-  const toDoInput = (event) => {
-    setNewToDo(event.target.value)
-  };
-
-  const toDoInstructions = (event) => {
-    setInstructions(event.target.value)
-  };
 
   return (
     <div style={{backgroundImage: `url(${background})`}}className="todo">
@@ -116,10 +137,20 @@ const Todo = () => {
       </form>
       <div>{toDo}</div>
 
+      <Modal
+        opened={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Have you Completed your task?"
+      >
+        <Button className="modalYes" color="green" >Yes!</Button>
+        <Button color="red">No</Button>
+      </Modal>
+
+
             {/* Flexbox? */}
       <div className='select'>
         <Text size='sm'>Background:</Text>
-        <select onChange={handleSelect}>
+        <select className='select' onChange={() => setModalOpen(true)}>
           <option value='white'>Nothing</option>
           <option value={kittens}>Kittens</option>
           <option value={puppies}>Puppies</option>
