@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { PasswordInput, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { createRoom, setProfileValue } from '../lib/UtilityBelt/chatUtility.js';
@@ -7,6 +7,7 @@ import { AppContext } from '../App.js';
 const CreateRoomForm = () => {
 
   let { roomInfo, setRoomInfo, profile, setProfile, chatLog, setChatLog } = useContext(AppContext);
+  let [disabled, setDisabled] = useState(false);
 
   let NewRoomForm = useForm({
     initialValues: {
@@ -20,6 +21,15 @@ const CreateRoomForm = () => {
       confirmPass: (value, values) => value !== values.roomPass ? 'Passwords do not match' : null,
     },
   });
+
+  useEffect(() => {
+    if (profile.myRooms.length > 1) {
+      document.getElementById('new-room-submit').setAttribute('disabled', '');
+      setDisabled(disabled = true);
+    } else {
+      console.log(`error`)
+    }
+  }, [profile])
 
   return (
     <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(profile.id, values.roomName, values.roomPass, (response) => {
@@ -39,7 +49,7 @@ const CreateRoomForm = () => {
       <TextInput id="un" label="Room Name" {...NewRoomForm.getInputProps('roomName')} withAsterisk />
       <PasswordInput id="pa" label="Password" placeholder="Can be left blank" {...NewRoomForm.getInputProps('roomPass')} />
       <PasswordInput id="cp" label="Confirm Password" {...NewRoomForm.getInputProps('confirmPass')} />
-      <Button type="submit" style={{ marginTop: 10 }} >Submit</Button>
+      <Button id="new-room-submit" type="submit" style={{ marginTop: 10 }}>{!disabled ? 'Submit' : 'Maximum Rooms Exceeded'}</Button>
     </form>
   )
 }

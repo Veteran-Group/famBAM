@@ -23,7 +23,7 @@ function App() {
     username: localStorage.getItem('username'),
     role: localStorage.getItem('role'),
     status: localStorage.getItem('fambamLogin'),
-    myRooms: []
+    myRooms: localStorage.getItem('myRooms')
   });
   let [roomInfo, setRoomInfo] = useState({
     roomName: 'Home',
