@@ -3,13 +3,16 @@ require('dotenv').config();
 const router = require('./routers.js');
 const morgan = require('morgan');
 
-const login = express();
+const app = express();
 const port = process.env.SERVERPORT || 3001;
 
-login.use(express.json());
-login.use(morgan('dev'));
-login.use('/', router);
 
-login.listen(port, () => {
+
+
+app.use(express.json());
+app.use(morgan('dev'));
+app.use('/', router);
+
+app.listen(port, () => {
   console.log(`Login Server lisening on port ${port}...`)
 })

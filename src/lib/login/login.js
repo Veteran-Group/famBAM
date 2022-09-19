@@ -5,6 +5,7 @@ export const saveStatus = (profile) => {
   localStorage.setItem('username', profile.username);
   localStorage.setItem('role', profile.role);
   localStorage.setItem('fambamLogin', profile.status);
+  localStorage.setItem('myRooms', profile.myRooms);
   return profile;
 };
 
@@ -15,6 +16,7 @@ export const logout = () => {
   localStorage.setItem('username', null);
   localStorage.setItem('role', null);
   localStorage.setItem('fambamLogin', 'false');
+  localStorage.setItem('myRooms', '[]');
   return false;
 }
 

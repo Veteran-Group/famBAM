@@ -27,7 +27,11 @@ module.exports = {
               return user;
             })
             .then((user) => {
-              res.status(200).send(user);
+              db.queryAsync(`SELECT room_id, room_name FROM fambamschema.roomList WHERE owner_id=${user.id}`)
+                .then((response) => {
+                  user[`myRooms`] = response[0].rows;
+                  res.status(200).send(user);
+                })
             })
         } else {
           res.status(400).send(false);

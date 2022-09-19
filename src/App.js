@@ -10,6 +10,9 @@ import Todo from './components/Todo.jsx';
 import axios from 'axios';
 import UtilityBelt from './components/UtilityBelt.jsx';
 import { api } from './config.js';
+import { io } from 'socket.io-client';
+
+const socket = io('http://192.168.1.8:3002');
 
 export const AppContext = createContext();
 
@@ -23,7 +26,7 @@ function App() {
     username: localStorage.getItem('username'),
     role: localStorage.getItem('role'),
     status: localStorage.getItem('fambamLogin'),
-    myRooms: []
+    myRooms: localStorage.getItem('myRooms')
   });
   let [roomInfo, setRoomInfo] = useState({
     roomName: 'Home',
@@ -50,6 +53,12 @@ function App() {
         setChatLog(chatLog = response.data);
       })
   }, []);
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      console.log(message);
+    })
+  })
 
   return (
     <AppContext.Provider value={{roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
