@@ -59,6 +59,7 @@ const Todo = () => {
           console.log(error)
         });
 
+        setModalOpen(false);
       };
 
       const confirmComplete = () => {
@@ -142,8 +143,14 @@ const Todo = () => {
         onClose={() => setModalOpen(false)}
         title="Have you Completed your task?"
       >
-        <Button className="modalYes" color="green" >Yes!</Button>
-        <Button color="red">No</Button>
+        <Button
+        className="modalYes"
+        color="green"
+        onClick={handleComplete}
+        >
+          Yes!
+        </Button>
+        <Button color="red" onClick={() => setModalOpen(false)}>No</Button>
       </Modal>
 
 
