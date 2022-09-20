@@ -3,7 +3,7 @@ import { Text, TextInput, ScrollArea, Tabs } from "@mantine/core";
 import "./styles/chat.css";
 import ChatBubble from "./ChatBubble";
 import { AppContext } from "../App";
-import { getTime, getTodayDate } from "../lib/ChatFeed/chatfeedlib.js";
+import { createMessagePack } from "../lib/ChatFeed/chatfeedlib.js";
 import axios from "axios";
 import { api } from '../config.js';
 import { io } from 'socket.io-client';
@@ -15,24 +15,21 @@ const MainFeed = () => {
   let {roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
+  let enterMessage = () => {
+    socket.emit('chat', createMessagePack(profile, roomInfo ));
+  }
+
   useEffect(() => {
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
   }, [chatLog]);
 
   useEffect(() => {
-    socket.on('message', (message) => {
-      console.log(message);
-    });
 
-    socket.on('chat', (message) => {
-      setChatLog(chatLog = [...chatLog, message]);
-    });
+    socket.emit('joinRoom', { username: profile.username, roomName: roomInfo.roomName });
 
-    return () => {
-      socket.off('message');
-      socket.off('chat')
-    }
-  }, []);
+    socket.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
+
+  }, [chatLog, roomInfo]);
 
   useEffect(() => {
     let keyDownHandler = (event) => {
@@ -40,7 +37,7 @@ const MainFeed = () => {
 
       if (event.key === "Enter") {
         event.preventDefault();
-        enterMessage();
+        enterMessage(profile, roomInfo);
         document.getElementById('message').value = "";
       }
     };
@@ -51,25 +48,6 @@ const MainFeed = () => {
       document.removeEventListener("keydown", keyDownHandler);
     };
   }, [roomInfo]);
-
-  let enterMessage = () => {
-    let time = getTime();
-    let message = document.getElementById('message').value;
-    let newMessage = {
-      user_name: profile.username,
-      user_message: message,
-      time_stamp: time,
-      date: getTodayDate()
-    };
-
-    let messagePack = {
-      newMessage: newMessage,
-      roomInfo: roomInfo,
-      profile: profile
-    }
-
-    socket.emit('chat', messagePack);
-  }
 
   useEffect(() => {
     axios.get(`${api}/getChat?cid=${roomInfo.id}`)

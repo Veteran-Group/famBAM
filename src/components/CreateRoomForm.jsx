@@ -33,7 +33,6 @@ const CreateRoomForm = () => {
 
   return (
     <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(profile.id, values.roomName, values.roomPass, (response) => {
-      let elementIds = ['un', 'pa', 'cp'];
       setRoomInfo(roomInfo = {
         roomName: response.roomName,
         id: response.id

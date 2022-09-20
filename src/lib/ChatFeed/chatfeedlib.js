@@ -1,5 +1,8 @@
 import axios from "axios";
 import { api } from "../../config.js";
+import { io } from 'socket.io-client';
+
+const socket = io('http://192.168.1.8:3002');
 
 export const getTime = () => {
   let today = new Date();
@@ -31,4 +34,22 @@ export const createNewRoom = (desiredRoomName, roomPass) => {
     .then((response) => {
       console.log(response.data)
     })
+}
+
+export const createMessagePack = (profile, roomInfo) => {
+  let message = document.getElementById('message').value;
+  let newMessage = {
+    user_name: profile.username,
+    user_message: message,
+    time_stamp: getTime(),
+    date: getTodayDate()
+  };
+
+  let messagePack = {
+    newMessage: newMessage,
+    roomInfo: roomInfo,
+    profile: profile
+  }
+
+  return messagePack;
 }
