@@ -6,6 +6,9 @@ import { AppContext } from "../App";
 import { getTime, getTodayDate } from "../lib/ChatFeed/chatfeedlib.js";
 import axios from "axios";
 import { api } from '../config.js';
+import { io } from 'socket.io-client';
+
+const socket = io('http://192.168.1.8:3002');
 
 const MainFeed = () => {
 
@@ -15,6 +18,21 @@ const MainFeed = () => {
   useEffect(() => {
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
   }, [chatLog]);
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      console.log(message);
+    });
+
+    socket.on('chat', (message) => {
+      setChatLog(chatLog = [...chatLog, message]);
+    });
+
+    return () => {
+      socket.off('message');
+      socket.off('chat')
+    }
+  }, []);
 
   useEffect(() => {
     let keyDownHandler = (event) => {
@@ -43,8 +61,14 @@ const MainFeed = () => {
       time_stamp: time,
       date: getTodayDate()
     };
-    axios.post(`${api}/newMessage?uid=${profile.id}&cid=${roomInfo.id}&un=${newMessage.user_name}&um=${newMessage.user_message}&ts=${newMessage.time_stamp}&da=${newMessage.date}`);
-    setChatLog(chatLog = [...chatLog, newMessage]);
+
+    let messagePack = {
+      newMessage: newMessage,
+      roomInfo: roomInfo,
+      profile: profile
+    }
+
+    socket.emit('chat', messagePack);
   }
 
   useEffect(() => {
