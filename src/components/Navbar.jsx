@@ -35,16 +35,6 @@ const Navbar = () => {
             profile[key] = null;
           };
           setLoginStatus(loginStatus = logout()); }}>Logout</button>
-        <button onClick={() => { console.log(profile) }}>Profile</button>
-        <button onClick={() => {
-          console.log(`Room Info: ${JSON.stringify(roomInfo)}`);
-          axios.get(`${api}/getChat?cid=${roomInfo.id}`)
-            .then((response) => {
-              console.log(response.data);
-            })
-        }}>get chat</button>
-        <button onClick={() => { console.log(`chatLog: ${JSON.stringify(chatLog)}`) }}>chatLog Var</button>
-        <button onClick={() => { console.log(JSON.stringify(roomInfo)) }}>room info</button>
       </Drawer>
     </div>
   )

@@ -59,8 +59,6 @@ const Login = () => {
         </Button>
         </Paper>
       </div>
-      <button onClick={() => {setLoginStatus(loginStatus = true)}}>Test Login</button>
-      <button onClick={() => {console.log(loginStatus, JSON.stringify(profile))}}>Status</button>
     </div>
   )
 }
