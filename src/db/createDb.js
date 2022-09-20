@@ -37,6 +37,7 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
     )`)
   })
   .then(() => {
+    //can use SERIAL PRIMARY KEY instead for ID
     db.queryAsync(`CREATE TABLE fambamschema.Dad_1 (
       task VARCHAR UNIQUE,
       instructions VARCHAR,
@@ -45,6 +46,7 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
     )`)
   })
   .then(() => {
+    //can use SERIAL PRIMARY KEY instead for ID
     db.queryAsync(`CREATE TABLE fambamschema.Mom_2 (
       task VARCHAR UNIQUE,
       instructions VARCHAR,
