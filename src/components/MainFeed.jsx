@@ -21,15 +21,16 @@ const MainFeed = () => {
 
   useEffect(() => {
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
+    socket.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
+
+    return () => {
+      socket.off('chat');
+    }
   }, [chatLog]);
 
   useEffect(() => {
-
     socket.emit('joinRoom', { username: profile.username, roomName: roomInfo.roomName });
-
-    socket.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
-
-  }, [chatLog, roomInfo]);
+  }, [roomInfo])
 
   useEffect(() => {
     let keyDownHandler = (event) => {

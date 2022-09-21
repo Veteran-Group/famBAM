@@ -18,7 +18,6 @@ const Login = () => {
       .then((response) => {
         let login = response.data;
         checkStatus(login, `Invalid Login`, (status) => {
-          console.log(JSON.stringify(login));
           saveStatus(login);
           setLoginStatus(loginStatus = status);
           setProfile(profile = {

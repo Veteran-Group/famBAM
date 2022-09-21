@@ -13,7 +13,7 @@ module.exports = {
       .then((response) => {
         if (response[0].rows.length === 1) {
           let id = response[0].rows[0].user_id;
-          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
+          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id} AND logged_in=false`)
             .then((response) => {
               let profile = response[0].rows[0];
               let user = {
@@ -24,6 +24,7 @@ module.exports = {
                 role: profile.role,
                 status: true
               };
+              db.queryAsync(`UPDATE fambamschema.profile SET logged_in=true WHERE user_id=${user.id}`)
               return user;
             })
             .then((user) => {
@@ -37,6 +38,10 @@ module.exports = {
           res.status(400).send(false);
         }
       })
+  },
+  logout: function (req, res) {
+    let { uid } = req.query;
+    db.queryAsync(`UPDATE fambamschema.profile SET logged_in=false WHERE user_id=${uid}`)
   },
   createNewRoom: function(req, res) {
     const { desiredRoomName, roomPass, owner } = req.query;

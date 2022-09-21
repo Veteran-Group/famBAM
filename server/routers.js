@@ -15,5 +15,6 @@ router.post(`/newMessage`, controller.newMessage);
 router.post(`/newToDo`, controller.newToDo);
 router.get(`/getToDo`, controller.getToDo);
 router.put(`/completeToDo`, controller.completedToDo);
+router.put(`/logout`, controller.logout);
 
 module.exports = router;

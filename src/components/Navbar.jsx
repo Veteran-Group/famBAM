@@ -31,10 +31,9 @@ const Navbar = () => {
         size="xl"
       >
         <button onClick={() => {
-          for (let key in profile) {
-            profile[key] = null;
-          };
-          setLoginStatus(loginStatus = logout()); }}>Logout</button>
+          setLoginStatus(loginStatus = logout(profile.id));
+
+        }}>Logout</button>
       </Drawer>
     </div>
   )

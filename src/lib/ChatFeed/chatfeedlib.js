@@ -1,32 +1,9 @@
 import axios from "axios";
 import { api } from "../../config.js";
 import { io } from 'socket.io-client';
+import moment from 'moment';
 
 const socket = io('http://192.168.1.8:3002');
-
-export const getTime = () => {
-  let today = new Date();
-  let hours = today.getHours();
-  let minutes = today.getMinutes();
-
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  };
-
-  let time = `${hours}:${minutes}`
-
-  return time;
-}
-
-export const getTodayDate = () => {
-
-  let today = new Date();
-  let day = today.getDate();
-  let month = today.toLocaleString('default', { month: 'short' })
-  let year = today.getFullYear();
-
-  return `${month} ${day}, ${year}`;
-}
 
 export const createNewRoom = (desiredRoomName, roomPass) => {
   // Eventually want to add validation for room names as to not repeat rooms
@@ -41,8 +18,8 @@ export const createMessagePack = (profile, roomInfo) => {
   let newMessage = {
     user_name: profile.username,
     user_message: message,
-    time_stamp: getTime(),
-    date: getTodayDate()
+    time_stamp: moment().format('h:mm a'),
+    date: moment().format('MMM Do YYYY')
   };
 
   let messagePack = {
