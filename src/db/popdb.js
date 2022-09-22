@@ -66,5 +66,5 @@ db.queryAsync(`INSERT INTO fambamschema.profile (
       room_name,
       owner_id,
       room_pass
-    ) VALUES ($1, $2, $3, $4)`, ['a001', 'Home', 001, ''])
+    ) VALUES ($1, $2, $3, $4)`, ['a001', 'Home', 1337, ''])
   })
