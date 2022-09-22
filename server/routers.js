@@ -11,6 +11,7 @@ router.get(`/login`, controller.login);
 router.get(`/getChat`, controller.getChat);
 router.get(`/createNewRoom`, controller.createNewRoom);
 router.get(`/chatLogin`, controller.chatLogin);
+router.get(`/allRooms`, controller.allRooms);
 router.post(`/newMessage`, controller.newMessage);
 router.post(`/newToDo`, controller.newToDo);
 router.get(`/getToDo`, controller.getToDo);

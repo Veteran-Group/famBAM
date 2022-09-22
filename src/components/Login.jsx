@@ -31,7 +31,9 @@ const Login = () => {
           });
         });
       })
-      .catch((err) => {console.log(`Error in reception: ${err}`)})
+      .catch((err) => {
+        alert(`Username or password is incorrect. Please try again.`)
+      })
   };
 
   return (

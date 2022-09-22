@@ -41,7 +41,15 @@ const CreateRoomForm = () => {
         roomName: response.roomName,
         id: response.id
       })
-      setProfile(profile = setProfileValue(profile, 'myRooms', response));
+      setProfile(profile = setProfileValue(profile = {
+        id: profile.id,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        username: profile.username,
+        role: profile.role,
+        status: profile.status,
+        myRooms: [...profile.myRooms, { room_id: roomInfo.room_id, room_name: roomInfo.room_name }]
+      }));
       setChatLog(chatLog = []);
       NewRoomForm.setValues({
         roomName: '',

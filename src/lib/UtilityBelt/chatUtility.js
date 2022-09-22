@@ -21,9 +21,10 @@ export const loginToChatroom = (name, pass, callback) => {
 
   axios.get(`${api}/chatLogin?roomName=${name}&roomPass=${pass}`)
     .then((response) => {
+      console.log(`chat login response: ${JSON.stringify(response.data)}`)
       callback(response.data);
     })
     .catch((err) => {
-      console.log(`Error in ./src/lib/UtilityBelt/chatUtility.js-loginChatRoom(): ${err}`)
+      alert(`Room name or password is incorrect. Please try again.`)
     })
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PasswordInput, TextInput, Button } from '@mantine/core';
+import { PasswordInput, TextInput, Button, Autocomplete } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { loginToChatroom } from '../lib/UtilityBelt/chatUtility.js';
 import { AppContext } from '../App.js';
@@ -7,7 +7,7 @@ import { RoomRecordingContext } from 'twilio/lib/rest/video/v1/room/recording.js
 
 const EnterRoomForm = () => {
 
-  let { roomInfo, setRoomInfo, profile, setProfile, chatLog, setChatLog } = useContext(AppContext);
+  let { roomList, roomInfo, setRoomInfo, profile, setProfile, chatLog, setChatLog } = useContext(AppContext);
 
   let LoginRoomForm = useForm({
     initialValues: {
@@ -33,7 +33,7 @@ const EnterRoomForm = () => {
         })
       });
     })}>
-      <TextInput id="un" label="Room Name" {...LoginRoomForm.getInputProps('roomName')} withAsterisk />
+      <Autocomplete data={roomList} id="un" label="Room Name" {...LoginRoomForm.getInputProps('roomName')} withAsterisk />
       <PasswordInput id="pa" label="Password" {...LoginRoomForm.getInputProps('roomPass')} />
       <Button type="submit" style={{ marginTop: 10 }} >Submit</Button>
     </form>

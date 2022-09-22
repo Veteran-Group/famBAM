@@ -34,6 +34,7 @@ function App() {
   });
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
+  let [roomList, setRoomList] = useState([]);
 
   const exit = () => {
     logout();
@@ -50,6 +51,13 @@ function App() {
   }
 
   useEffect(() => {
+    axios.get(`${api}/allRooms`)
+      .then((response) => {
+        setRoomList(roomList = response.data)
+      })
+  }, [])
+
+  useEffect(() => {
     axios.get(`${api}/getChat?cid=${roomInfo.id}`)
       .then((response) => {
         setChatLog(chatLog = response.data);
@@ -60,7 +68,7 @@ function App() {
   }, [roomInfo]);
 
   return (
-    <AppContext.Provider value={{roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">

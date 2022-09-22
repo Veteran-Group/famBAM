@@ -38,6 +38,9 @@ module.exports = {
           res.status(400).send(false);
         }
       })
+      .catch((err) => {
+        res.status(401).sent(false);
+      })
   },
   logout: function (req, res) {
     let { uid } = req.query;
@@ -88,11 +91,30 @@ module.exports = {
     const query = { text: roomLogin, values: [roomName, roomPass] };
     db.queryAsync(query)
       .then((response) => {
-        let answer = { roomName: roomName, id: response[0].rows[0].room_id };
-        res.status(200).send(answer)
+        if (response[0].rows.length === 0) {
+          console.log(response[0].rows)
+          res.status(400).send(false);
+        } else {
+          let answer = { roomName: roomName, id: response[0].rows[0].room_id };
+          res.status(200).send(answer)
+        }
       })
       .catch((err) => {
         console.log(`Error in controller/chatLogin EP: ${err}`)
+      })
+  },
+  allRooms: function(req, res) {
+    console.log('allRooms EP pinged');
+    db.queryAsync(`SELECT room_name FROM fambamschema.roomList`)
+      .then((response) => {
+        let roomNameList = [];
+        response[0].rows.forEach((roomNameObj) => {
+          roomNameList.push(roomNameObj.room_name)
+        })
+        res.status(200).send(roomNameList);
+      })
+      .catch((err) => {
+        console.log(`ERROR: server/controllers -> allRooms: ${err}`)
       })
   },
   newToDo: function(req, res) {
