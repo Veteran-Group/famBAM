@@ -7,8 +7,12 @@ import { createMessagePack } from "../lib/ChatFeed/chatfeedlib.js";
 import axios from "axios";
 import { api } from '../config.js';
 import { io } from 'socket.io-client';
+require('dotenv').config();
 
-const socket = io('http://192.168.1.8:3002');
+// For online chat server
+const socket = io('http://192.168.1.8:3002')
+// For home chat server
+//const socket = io(process.env.REACT_APP_CHAT_SERVER);
 
 const MainFeed = () => {
 
@@ -16,11 +20,15 @@ const MainFeed = () => {
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
   let enterMessage = () => {
-    socket.emit('chat', createMessagePack(profile, roomInfo ));
+    let message = document.getElementById('message').value;
+    socket.emit('chat', createMessagePack(message, profile, roomInfo));
   }
 
   useEffect(() => {
+    // Setting up autoscroll to bottom of chat
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
+
+    // Setup of client-side chat socket
     socket.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
 
     return () => {
@@ -29,32 +37,22 @@ const MainFeed = () => {
   }, [chatLog]);
 
   useEffect(() => {
-    socket.emit('joinRoom', { username: profile.username, roomName: roomInfo.roomName });
-  }, [roomInfo])
+    // Joining the current chat room
 
-  useEffect(() => {
+    socket.emit('joinRoom', createMessagePack('', profile, roomInfo));
+
+    // Set ting up key handeler for chat --> need to use mantine forms later
     let keyDownHandler = (event) => {
-      // Enable below if you want to see keylog in console
-
       if (event.key === "Enter") {
         event.preventDefault();
         enterMessage(profile, roomInfo);
         document.getElementById('message').value = "";
       }
     };
-
     document.addEventListener("keydown", keyDownHandler);
-
     return () => {
       document.removeEventListener("keydown", keyDownHandler);
     };
-  }, [roomInfo]);
-
-  useEffect(() => {
-    axios.get(`${api}/getChat?cid=${roomInfo.id}`)
-      .then((response) => {
-        setChatLog(chatLog = response.data);
-      })
   }, [roomInfo])
 
   return (

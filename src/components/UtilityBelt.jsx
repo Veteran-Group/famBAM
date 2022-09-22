@@ -7,6 +7,7 @@ import { useForm } from '@mantine/form';
 import { newRoomForm } from '../lib/UtilityBelt/chatUtility.js';
 import CreateRoomForm from './CreateRoomForm.jsx';
 import EnterRoomForm from './EnterRoomForm.jsx';
+import MyRooms from './MyRooms.jsx';
 
 const UtilityBelt = () => {
 
@@ -16,6 +17,12 @@ const UtilityBelt = () => {
     return (
       <div className="utility-belt">
         <Accordion>
+        <Accordion.Item value="my-rooms">
+            <Accordion.Control>My Rooms</Accordion.Control>
+            <Accordion.Panel>
+              <MyRooms />
+            </Accordion.Panel>
+          </Accordion.Item>
           <Accordion.Item value="contactas">
             <Accordion.Control>Contacts</Accordion.Control>
             <Accordion.Panel>

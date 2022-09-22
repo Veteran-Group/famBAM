@@ -8,19 +8,12 @@ export const saveStatus = (profile) => {
   localStorage.setItem('username', profile.username);
   localStorage.setItem('role', profile.role);
   localStorage.setItem('fambamLogin', profile.status);
-  localStorage.setItem('myRooms', profile.myRooms);
+  localStorage.setItem('myRooms', JSON.stringify(profile.myRooms));
   return profile;
 };
 
 export const logout = (id) => {
-  console.log(`ID: ${id}`);
-  localStorage.setItem('userId', null);
-  localStorage.setItem('firstName', null);
-  localStorage.setItem('lastName', null);
-  localStorage.setItem('username', null);
-  localStorage.setItem('role', null);
-  localStorage.setItem('fambamLogin', 'false');
-  localStorage.setItem('myRooms', '[]');
+  localStorage.clear();
   axios.put(`${api}/logout?uid=${id}`);
   return false;
 }

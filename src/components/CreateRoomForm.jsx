@@ -23,11 +23,15 @@ const CreateRoomForm = () => {
   });
 
   useEffect(() => {
-    if (profile.myRooms.length > 1) {
-      document.getElementById('new-room-submit').setAttribute('disabled', '');
-      setDisabled(disabled = true);
+    if (profile.myRooms !== null) {
+      if (profile.myRooms.length > 1) {
+        document.getElementById('new-room-submit').setAttribute('disabled', '');
+        setDisabled(disabled = true);
+      } else {
+        console.log(`Error:: src/components/CreateRoomForm.jsx: useEffect room length check`)
+      }
     } else {
-      console.log(`error`)
+      console.log('ERROR: \'MyRooms\' is null');
     }
   }, [profile])
 
@@ -48,7 +52,7 @@ const CreateRoomForm = () => {
       <TextInput id="un" label="Room Name" {...NewRoomForm.getInputProps('roomName')} withAsterisk />
       <PasswordInput id="pa" label="Password" placeholder="Can be left blank" {...NewRoomForm.getInputProps('roomPass')} />
       <PasswordInput id="cp" label="Confirm Password" {...NewRoomForm.getInputProps('confirmPass')} />
-      <Button id="new-room-submit" type="submit" style={{ marginTop: 10 }}>{!disabled ? 'Submit' : 'Maximum Rooms Exceeded'}</Button>
+      <Button id="new-room-submit" type="submit" style={{ marginTop: 10 }}>{!disabled ? 'Submit' : 'Delete a room'}</Button>
     </form>
   )
 }

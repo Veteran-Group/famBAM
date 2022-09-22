@@ -13,13 +13,12 @@ export const createNewRoom = (desiredRoomName, roomPass) => {
     })
 }
 
-export const createMessagePack = (profile, roomInfo) => {
-  let message = document.getElementById('message').value;
+export const createMessagePack = (message, profile, roomInfo) => {
   let newMessage = {
     user_name: profile.username,
     user_message: message,
-    time_stamp: moment().format('h:mm a'),
-    date: moment().format('MMM Do YYYY')
+    time_stamp: moment().format('LT2'),
+    date: moment().format('ll')
   };
 
   let messagePack = {
@@ -29,4 +28,14 @@ export const createMessagePack = (profile, roomInfo) => {
   }
 
   return messagePack;
+}
+
+export const bubbleKey = () => {
+  let key = `${moment().format(`DoYYhh:mm:ss-${getRandomArbitrary(1, 999999999999999)}`)}`;
+
+  return key;
+}
+
+export const getRandomArbitrary = (min, max) => {
+  return Math.random() * (max - min) + min;
 }

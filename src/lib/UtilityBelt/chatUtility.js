@@ -13,7 +13,6 @@ export const createRoom = (ownerId, roomName, roomPass, callback) => {
 }
 
 export const setProfileValue = (profile, profileKey, value) => {
-  console.log(`Profile before: ${JSON.stringify(profile)}`);
   profile[profileKey] = [...profile[profileKey], value];
   return profile;
 }

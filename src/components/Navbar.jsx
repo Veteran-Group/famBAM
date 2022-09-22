@@ -32,8 +32,10 @@ const Navbar = () => {
       >
         <button onClick={() => {
           setLoginStatus(loginStatus = logout(profile.id));
-
         }}>Logout</button>
+        <button onClick={() => {
+          console.log(profile);
+        }}>Profile</button>
       </Drawer>
     </div>
   )
