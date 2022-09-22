@@ -3,79 +3,56 @@ import { Text, TextInput, ScrollArea, Tabs } from "@mantine/core";
 import "./styles/chat.css";
 import ChatBubble from "./ChatBubble";
 import { AppContext } from "../App";
-import { getTime, getTodayDate } from "../lib/ChatFeed/chatfeedlib.js";
+import { createMessagePack } from "../lib/ChatFeed/chatfeedlib.js";
 import axios from "axios";
 import { api } from '../config.js';
 import { io } from 'socket.io-client';
+require('dotenv').config();
 
-const socket = io('http://192.168.1.8:3002');
+// For online chat server
+const socket = io('http://192.168.1.8:3002')
+// For home chat server
+//const socket = io(process.env.REACT_APP_CHAT_SERVER);
 
 const MainFeed = () => {
 
   let {roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
-  useEffect(() => {
-    viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
-  }, [chatLog]);
-
-  useEffect(() => {
-    socket.on('message', (message) => {
-      console.log(message);
-    });
-
-    socket.on('chat', (message) => {
-      setChatLog(chatLog = [...chatLog, message]);
-    });
-
-    return () => {
-      socket.off('message');
-      socket.off('chat')
-    }
-  }, []);
-
-  useEffect(() => {
-    let keyDownHandler = (event) => {
-      // Enable below if you want to see keylog in console
-
-      if (event.key === "Enter") {
-        event.preventDefault();
-        enterMessage();
-        document.getElementById('message').value = "";
-      }
-    };
-
-    document.addEventListener("keydown", keyDownHandler);
-
-    return () => {
-      document.removeEventListener("keydown", keyDownHandler);
-    };
-  }, [roomInfo]);
-
   let enterMessage = () => {
-    let time = getTime();
     let message = document.getElementById('message').value;
-    let newMessage = {
-      user_name: profile.username,
-      user_message: message,
-      time_stamp: time,
-      date: getTodayDate()
-    };
-
-    let messagePack = {
-      newMessage: newMessage,
-      roomInfo: roomInfo,
-      profile: profile
-    }
-
-    socket.emit('chat', messagePack);
+    socket.emit('chat', createMessagePack(message, profile, roomInfo));
   }
 
   useEffect(() => {
-    axios.get(`${api}/getChat?cid=${roomInfo.id}`)
-      .then((response) => {
-        setChatLog(chatLog = response.data);
-      })
+    // Setting up autoscroll to bottom of chat
+    viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
+
+    // Setup of client-side chat socket
+    socket.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
+
+    return () => {
+      socket.off('chat');
+    }
+  }, [chatLog]);
+
+  useEffect(() => {
+    // Joining the current chat room
+
+    socket.emit('joinRoom', createMessagePack('', profile, roomInfo));
+
+    // Set ting up key handeler for chat --> need to use mantine forms later
+    let keyDownHandler = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        enterMessage(profile, roomInfo);
+        document.getElementById('message').value = "";
+      }
+    };
+    document.addEventListener("keydown", keyDownHandler);
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
   }, [roomInfo])
 
   return (

@@ -13,7 +13,7 @@ module.exports = {
       .then((response) => {
         if (response[0].rows.length === 1) {
           let id = response[0].rows[0].user_id;
-          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id}`)
+          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id} AND logged_in=false`)
             .then((response) => {
               let profile = response[0].rows[0];
               let user = {
@@ -24,6 +24,7 @@ module.exports = {
                 role: profile.role,
                 status: true
               };
+              db.queryAsync(`UPDATE fambamschema.profile SET logged_in=true WHERE user_id=${user.id}`)
               return user;
             })
             .then((user) => {
@@ -37,6 +38,13 @@ module.exports = {
           res.status(400).send(false);
         }
       })
+      .catch((err) => {
+        res.status(401).sent(false);
+      })
+  },
+  logout: function (req, res) {
+    let { uid } = req.query;
+    db.queryAsync(`UPDATE fambamschema.profile SET logged_in=false WHERE user_id=${uid}`)
   },
   createNewRoom: function(req, res) {
     const { desiredRoomName, roomPass, owner } = req.query;
@@ -83,11 +91,30 @@ module.exports = {
     const query = { text: roomLogin, values: [roomName, roomPass] };
     db.queryAsync(query)
       .then((response) => {
-        let answer = { roomName: roomName, id: response[0].rows[0].room_id };
-        res.status(200).send(answer)
+        if (response[0].rows.length === 0) {
+          console.log(response[0].rows)
+          res.status(400).send(false);
+        } else {
+          let answer = { roomName: roomName, id: response[0].rows[0].room_id };
+          res.status(200).send(answer)
+        }
       })
       .catch((err) => {
         console.log(`Error in controller/chatLogin EP: ${err}`)
+      })
+  },
+  allRooms: function(req, res) {
+    console.log('allRooms EP pinged');
+    db.queryAsync(`SELECT room_name FROM fambamschema.roomList`)
+      .then((response) => {
+        let roomNameList = [];
+        response[0].rows.forEach((roomNameObj) => {
+          roomNameList.push(roomNameObj.room_name)
+        })
+        res.status(200).send(roomNameList);
+      })
+      .catch((err) => {
+        console.log(`ERROR: server/controllers -> allRooms: ${err}`)
       })
   },
   newToDo: function(req, res) {

@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { api } from '../../config.js';
+
 export const saveStatus = (profile) => {
   localStorage.setItem('userId', profile.id);
   localStorage.setItem('firstName', profile.firstName);
@@ -5,18 +8,13 @@ export const saveStatus = (profile) => {
   localStorage.setItem('username', profile.username);
   localStorage.setItem('role', profile.role);
   localStorage.setItem('fambamLogin', profile.status);
-  localStorage.setItem('myRooms', profile.myRooms);
+  localStorage.setItem('myRooms', JSON.stringify(profile.myRooms));
   return profile;
 };
 
-export const logout = () => {
-  localStorage.setItem('userId', null);
-  localStorage.setItem('firstName', null);
-  localStorage.setItem('lastName', null);
-  localStorage.setItem('username', null);
-  localStorage.setItem('role', null);
-  localStorage.setItem('fambamLogin', 'false');
-  localStorage.setItem('myRooms', '[]');
+export const logout = (id) => {
+  localStorage.clear();
+  axios.put(`${api}/logout?uid=${id}`);
   return false;
 }
 

@@ -18,7 +18,6 @@ const Login = () => {
       .then((response) => {
         let login = response.data;
         checkStatus(login, `Invalid Login`, (status) => {
-          console.log(JSON.stringify(login));
           saveStatus(login);
           setLoginStatus(loginStatus = status);
           setProfile(profile = {
@@ -32,7 +31,9 @@ const Login = () => {
           });
         });
       })
-      .catch((err) => {console.log(`Error in reception: ${err}`)})
+      .catch((err) => {
+        alert(`Username or password is incorrect. Please try again.`)
+      })
   };
 
   return (
