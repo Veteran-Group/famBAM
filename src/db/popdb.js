@@ -4,37 +4,45 @@ const Promise = require('bluebird');
 
 db.queryAsync(`INSERT INTO fambamschema.profile (
   f_name,
-  l_name,
-  username,
-  role,
-  logged_in
-  ) VALUES($1, $2, $3, $4, $5)`, ['Robert', 'Campbell', 'Dad', 'parent', false])
+      l_name,
+      username,
+      profile_img,
+      last_room,
+      role,
+      logged_in
+  ) VALUES($1, $2, $3, $4, $5, $6, $7)`, ['Robert', 'Campbell', 'Dad', 'https://i.ibb.co/9T6n0NQ/glitch-image-1661879698.png', 'Home', 'parent', false])
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.profile (
       f_name,
       l_name,
       username,
+      profile_img,
+      last_room,
       role,
       logged_in
-    ) VALUES($1, $2, $3, $4, $5)`, ['Erica', 'Campbell', 'Mom', 'parent', false])
+    ) VALUES($1, $2, $3, $4, $5, $6, $7)`, ['Erica', 'Campbell', 'Mom', '', 'Home', 'parent', false])
   })
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.profile (
       f_name,
       l_name,
       username,
+      profile_img,
+      last_room,
       role,
       logged_in
-    ) VALUES ($1, $2, $3, $4, $5)`, ['Robert', 'Campbell', 'Admin1', 'Admin', false])
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7)`, ['Robert', 'Campbell', 'Admin1', '', 'Home', 'Admin', false])
   })
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.profile (
       f_name,
       l_name,
       username,
+      profile_img,
+      last_room,
       role,
       logged_in
-    ) VALUES ($1, $2, $3, $4, $5)`, ['Dustin', 'Deitch', 'Admin2', 'Admin', false])
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7)`, ['Dustin', 'Deitch', 'Admin2', '', 'Home', 'Admin', false])
   })
   .then(() => {
     db.queryAsync(`INSERT INTO fambamschema.credentiales (

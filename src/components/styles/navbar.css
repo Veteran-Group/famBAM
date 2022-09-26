@@ -1,12 +1,22 @@
 .navbar {
   background-color: rgb(244, 243, 243);
+  height: fit-content;
 }
 
 .navbar .title {
   position: absolute;
-  text-align: center;
+  margin-left: 50vw;
   font-family: Luminari, fantasy;
-  width: 100%;
+  width: auto;
   height: auto;
-  margin-top: 6px;
+  margin-top: 5px;
+}
+
+.navbar .burger {
+  margin: 5px;
+  align-self: left;
+}
+
+.navbar .burger :hover {
+  cursor: pointer;
 }

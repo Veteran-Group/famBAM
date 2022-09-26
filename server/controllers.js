@@ -13,7 +13,7 @@ module.exports = {
       .then((response) => {
         if (response[0].rows.length === 1) {
           let id = response[0].rows[0].user_id;
-          db.queryAsync(`SELECT user_id, f_name, l_name, username, role FROM fambamschema.profile WHERE user_id=${id} AND logged_in=false`)
+          db.queryAsync(`SELECT user_id, f_name, l_name, username, profile_img, last_room, role FROM fambamschema.profile WHERE user_id=${id} AND logged_in=false`)
             .then((response) => {
               let profile = response[0].rows[0];
               let user = {
@@ -22,6 +22,8 @@ module.exports = {
                 lastName: profile.l_name,
                 username: profile.username,
                 role: profile.role,
+                profileImg: profile.profile_img,
+                lastRoom: profile.last_room,
                 status: true
               };
               db.queryAsync(`UPDATE fambamschema.profile SET logged_in=true WHERE user_id=${user.id}`)
@@ -31,6 +33,7 @@ module.exports = {
               db.queryAsync(`SELECT room_id, room_name FROM fambamschema.roomList WHERE owner_id=${user.id}`)
                 .then((response) => {
                   user[`myRooms`] = response[0].rows;
+                  console.log(user)
                   res.status(200).send(user);
                 })
             })

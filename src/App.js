@@ -18,6 +18,7 @@ export const AppContext = createContext();
 
 function App() {
 
+  let [randomQuote, setRandomQuote] = useState({});
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [roomInfo, setRoomInfo] = useState({
     roomName: 'Home',
@@ -28,6 +29,8 @@ function App() {
     firstName: localStorage.getItem('firstName'),
     lastName: localStorage.getItem('lastName'),
     username: localStorage.getItem('username'),
+    profileImg: localStorage.getItem('profileImg'),
+    lastRoom: localStorage.getItem('lastRoom'),
     role: localStorage.getItem('role'),
     status: localStorage.getItem('fambamLogin'),
     myRooms: JSON.parse(localStorage.getItem('myRooms')),
@@ -43,6 +46,8 @@ function App() {
       lastName: localStorage.getItem('lastName'),
       username: localStorage.getItem('username'),
       role: localStorage.getItem('role'),
+      profileImg: localStorage.getItem('profileImg'),
+      lastRoom: localStorage.getItem('lastRoom'),
       status: localStorage.getItem('fambamLogin'),
       myRooms: JSON.parse(localStorage.getItem('myRooms')),
     })
@@ -68,7 +73,7 @@ function App() {
   }, [roomInfo]);
 
   return (
-    <AppContext.Provider value={{roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{randomQuote, roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
