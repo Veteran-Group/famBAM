@@ -7,7 +7,7 @@ const MyRooms = () => {
 
   let { profile, roomInfo, setRoomInfo } = useContext(AppContext);
 
-  if (!profile.myRooms) {
+  if (!profile.myRooms || profile.myRooms.length === 0) {
     return (<div>No Rooms</div>)
   } else {
     return (

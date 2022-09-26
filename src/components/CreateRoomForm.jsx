@@ -36,10 +36,11 @@ const CreateRoomForm = () => {
   }, [profile])
 
   return (
-    <form onSubmit={NewRoomForm.onSubmit((values) => { createRoom(profile.id, values.roomName, values.roomPass, (response) => {
-      setRoomInfo(roomInfo = {
-        roomName: response.roomName,
-        id: response.id
+    <form onSubmit={NewRoomForm.onSubmit((values) => {
+      createRoom(profile.id, values.roomName, values.roomPass, (response) => {
+        setRoomInfo(roomInfo = {
+          roomName: response.roomName,
+          id: response.id
       })
       setProfile(profile = setProfileValue(profile = {
         id: profile.id,
