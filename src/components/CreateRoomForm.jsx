@@ -3,6 +3,7 @@ import { PasswordInput, TextInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { createRoom, setProfileValue } from '../lib/UtilityBelt/chatUtility.js';
 import { AppContext } from '../App.js';
+import { saveStatus } from '../lib/login/login.js';
 
 const CreateRoomForm = () => {
 
@@ -24,7 +25,7 @@ const CreateRoomForm = () => {
 
   useEffect(() => {
     if (profile.myRooms !== null) {
-      if (profile.myRooms.length > 1) {
+      if (profile.myRooms.length > 2) {
         document.getElementById('new-room-submit').setAttribute('disabled', '');
         setDisabled(disabled = true);
       } else {
@@ -42,15 +43,19 @@ const CreateRoomForm = () => {
           roomName: response.roomName,
           id: response.id
       })
-      setProfile(profile = setProfileValue(profile = {
+      let newProfile = {
         id: profile.id,
         firstName: profile.firstName,
         lastName: profile.lastName,
         username: profile.username,
+        profileImg: profile.profileImg,
+        lastRoom: profile.lastRoom,
         role: profile.role,
         status: profile.status,
-        myRooms: [...profile.myRooms, { room_id: roomInfo.room_id, room_name: roomInfo.room_name }]
-      }));
+        myRooms: [...profile.myRooms, { room_id: response.id, room_name: response.roomName }]
+      }
+      saveStatus(newProfile);
+      setProfile(profile = newProfile);
       setChatLog(chatLog = []);
       NewRoomForm.setValues({
         roomName: '',

@@ -7,6 +7,7 @@ import '../App.css';
 import logo from '../assets/onering.png';
 import axios from 'axios';
 import { api } from '../config.js';
+import { loginToChatroom } from '../lib/UtilityBelt/chatUtility';
 
 
 const Login = () => {
@@ -25,6 +26,8 @@ const Login = () => {
             firstName: login.firstName,
             lastName: login.lastName,
             username: login.username,
+            profileImg: login.profileImg,
+            lastRoom: login.lastRoom,
             role: login.role,
             status: login.status,
             myRooms: login.myRooms

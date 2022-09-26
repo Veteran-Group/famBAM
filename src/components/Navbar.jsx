@@ -5,10 +5,12 @@ import './styles/navbar.css';
 import { logout } from '../lib/login/login.js';
 import axios from 'axios';
 import { api } from '../config.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBurger } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = () => {
 
-  let {chatLog, roomInfo, profilePic, setProfilePic, loginStatus, setLoginStatus, profile} = useContext(AppContext);
+  let {randomQuote, chatLog, roomInfo, profilePic, setProfilePic, loginStatus, setLoginStatus, profile} = useContext(AppContext);
 
   let [opened, setOpened] = useState(false);
 
@@ -17,12 +19,13 @@ const Navbar = () => {
   return (
     <div className='navbar'>
       <div className="title">FamBAM</div>
-      <Burger
+      <FontAwesomeIcon icon={faBurger} onClick={() => setOpened((o) => !o)} className="burger" />
+      {/* <Burger
       className="burger"
       opened={opened}
       onClick={() => setOpened((o) => !o)}
       title={title}
-      />
+      /> */}
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
@@ -36,6 +39,7 @@ const Navbar = () => {
         <button onClick={() => {
           alert(JSON.stringify(profile));
         }}>Profile</button>
+        <button onClick={() => {alert(JSON.stringify(randomQuote.data))}}>Quote</button>
       </Drawer>
     </div>
   )

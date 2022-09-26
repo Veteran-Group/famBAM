@@ -2,17 +2,32 @@
   position: absolute;
   min-width: 20vw;
   min-height: 30vh;
-  border: black solid 1px;
   border-radius: 10px;
   margin-top: 3vh;
   margin-left: 3vw;
   margin-right: 97vw;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .profile-box .avatar {
+  margin: 0;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.profile-box .username {
   margin-top: 10px;
-  width: 100%;
-  height: 60px;
+  font-family: Luminari, fantasy;
+  font-weight: bold;
+  text-align: center;
+}
+
+.profile-box .real-name {
+  font-size: x-small;
+  color: grey;
+  text-align: center;
 }
 
 .avatar-shadow {
@@ -20,4 +35,16 @@
   position: absolute;
   margin-top: 2px;
   box-shadow: 2px 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 2px rgba(0, 0, 0, 0.19);
+}
+
+.profile-box .edit {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 90%;
+  margin-right: 10%;
+}
+
+.profile-box .edit :hover {
+  cursor: pointer;
+  color: grey;
 }

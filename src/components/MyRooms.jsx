@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../App';
 import { loginToChatroom } from '../lib/UtilityBelt/chatUtility.js';
 import './styles/myRooms.css';
@@ -6,6 +6,10 @@ import './styles/myRooms.css';
 const MyRooms = () => {
 
   let { profile, roomInfo, setRoomInfo } = useContext(AppContext);
+
+  useEffect(() => {
+
+  })
 
   if (!profile.myRooms || profile.myRooms.length === 0) {
     return (<div>No Rooms</div>)
