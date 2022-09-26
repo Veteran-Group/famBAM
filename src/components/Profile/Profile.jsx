@@ -10,7 +10,9 @@ const Profile = () => {
 
   return (
     <div className="profile-box">
-      <Avatar className="avatar" src={profileImage} size="lg" radius="xl" />
+      <div className="avatar">
+        <Avatar className="avatar-shadow" src={profileImage} size="lg" radius="xl" />
+      </div>
     </div>
   )
 }
