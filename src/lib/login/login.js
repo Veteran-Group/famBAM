@@ -7,10 +7,8 @@ export const saveStatus = (profile) => {
   localStorage.setItem('lastName', profile.lastName);
   localStorage.setItem('username', profile.username);
   localStorage.setItem('profileImg', profile.profileImg);
-  localStorage.setItem('lastRoom', profile.lastRoom);
   localStorage.setItem('role', profile.role);
   localStorage.setItem('fambamLogin', profile.status);
-  localStorage.setItem('myRooms', JSON.stringify(profile.myRooms));
   return profile;
 };
 

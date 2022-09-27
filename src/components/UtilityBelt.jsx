@@ -1,48 +1,43 @@
-import React, { useContext } from 'react';
-import { Text, Accordion, Button, TextInput } from '@mantine/core'
+import React, { useState, useContext, useEffect } from 'react';
+import { Text, Accordion, Button } from '@mantine/core'
 import './styles/utilityBelt.css';
 import { AppContext } from '../App';
-import { sendEmail } from '../lib/UtilityBelt/chatUtility';
-import { useForm } from '@mantine/form';
-import { newRoomForm } from '../lib/UtilityBelt/chatUtility.js';
-import CreateRoomForm from './CreateRoomForm.jsx';
-import EnterRoomForm from './EnterRoomForm.jsx';
-import MyRooms from './MyRooms.jsx';
+import { api } from '../config.js';
+import axios from 'axios';
+import { sendTextTo } from '../lib/UtilityBelt/chatUtility';
 
 const UtilityBelt = () => {
 
-  let {mainView, setMainView} = useContext(AppContext)
+  let {mainView, setMainView, profile} = useContext(AppContext);
+  let [disabled, setDisabled] = useState(localStorage.getItem('textButtonStatus'));
+
+useEffect(() => {
+  if (localStorage.getItem('textButtonStatus')) {
+    document.getElementById('dadText').setAttribute('disabled', '');
+    document.getElementById('momText').setAttribute('disabled', '');
+  }
+}, [disabled])
 
   if (mainView === 'chat') {
     return (
-      <div className="utility-belt">
-        <Accordion>
-        {/* <Accordion.Item value="my-rooms">
-            <Accordion.Control>My Rooms</Accordion.Control>
-            <Accordion.Panel>
-              <MyRooms />
-            </Accordion.Panel>
-          </Accordion.Item> */}
-          <Accordion.Item value="contactas">
-            <Accordion.Control>Contacts</Accordion.Control>
-            <Accordion.Panel>
-              <Text>Contact Buttons Will Go Here</Text>
-            </Accordion.Panel>
-          </Accordion.Item>
-          {/* <Accordion.Item value="enter-room">
-            <Accordion.Control>Enter Room</Accordion.Control>
-            <Accordion.Panel>
-              <EnterRoomForm />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="create-room">
-            <Accordion.Control>Create Room</Accordion.Control>
-            <Accordion.Panel>
-              <CreateRoomForm />
-            </Accordion.Panel>
-          </Accordion.Item> */}
-        </Accordion>
-      </div>
+      <>
+        <div className="utility-belt">
+          <Accordion>
+            <Accordion.Item value="contactas">
+              <Accordion.Control>Contacts</Accordion.Control>
+              <Accordion.Panel>
+                <Button id="dadText" style={{ margin: 10 }} onClick={() => {
+                  sendTextTo('dad', profile.firstName);
+                  setDisabled(true);
+                }}>{!disabled ? 'Text Dad' : 'Wait to Text'}</Button>
+                <Button id="momText" style={{ margin: 10 }} onClick={() => {
+                  sendTextTo('mom', profile.firstName);
+                }}>{!disabled ? 'Text Mom' : 'Wait to Text'}</Button>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        </div>
+    </>
     )
   } else if (mainView === 'video') {
     return (

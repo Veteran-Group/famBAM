@@ -21,7 +21,7 @@ function App() {
   let [socketState, setSocketState] = useState(socket);
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [roomInfo, setRoomInfo] = useState({
-    roomName: localStorage.getItem('lastRoom'),
+    roomName: 'Home',
     id: 'a001'
   });
   let [profile, setProfile] = useState({
@@ -30,14 +30,11 @@ function App() {
     lastName: localStorage.getItem('lastName'),
     username: localStorage.getItem('username'),
     profileImg: localStorage.getItem('profileImg'),
-    lastRoom: localStorage.getItem('lastRoom'),
     role: localStorage.getItem('role'),
     status: localStorage.getItem('fambamLogin'),
-    myRooms: JSON.parse(localStorage.getItem('myRooms')),
   });
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
-  let [roomList, setRoomList] = useState([]);
 
   const exit = () => {
     logout();
@@ -47,7 +44,6 @@ function App() {
       username: localStorage.getItem('username'),
       role: localStorage.getItem('role'),
       profileImg: localStorage.getItem('profileImg'),
-      lastRoom: localStorage.getItem('lastRoom'),
       status: localStorage.getItem('fambamLogin'),
       myRooms: JSON.parse(localStorage.getItem('myRooms')),
     })
@@ -55,15 +51,8 @@ function App() {
     setLoginStatus(loginStatus = false);
   }
 
-  useEffect(() => {
-    axios.get(`${api}/allRooms`)
-      .then((response) => {
-        setRoomList(roomList = response.data)
-      })
-  }, [])
-
   return (
-    <AppContext.Provider value={{socketState, roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{socketState, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">

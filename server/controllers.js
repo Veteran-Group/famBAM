@@ -121,15 +121,19 @@ module.exports = {
       })
   },
   sendDadText: function(req, res) {
-    const { username, message } = req.query;
+    const { username, number } = req.query;
     const accountSid = env.TWILIO_ACCOUNT_SID;
     const authToken = env.TWILIO_AUTH_TOKEN;
     const client = require('twilio')(accountSid, authToken);
 
     client.messages
           .create({
-            body: ,
-            to: '+19162257301'
+            to: number,
+            from: '+18146793267',
+            body: `${username} needs you in famBAM chat.`
+          })
+          .catch((err) => {
+            console.log(err)
           })
           .then(message => console.log(message.sid))
           .done();
