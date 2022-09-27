@@ -17,19 +17,19 @@ const UtilityBelt = () => {
     return (
       <div className="utility-belt">
         <Accordion>
-        <Accordion.Item value="my-rooms">
+        {/* <Accordion.Item value="my-rooms">
             <Accordion.Control>My Rooms</Accordion.Control>
             <Accordion.Panel>
               <MyRooms />
             </Accordion.Panel>
-          </Accordion.Item>
+          </Accordion.Item> */}
           <Accordion.Item value="contactas">
             <Accordion.Control>Contacts</Accordion.Control>
             <Accordion.Panel>
               <Text>Contact Buttons Will Go Here</Text>
             </Accordion.Panel>
           </Accordion.Item>
-          <Accordion.Item value="enter-room">
+          {/* <Accordion.Item value="enter-room">
             <Accordion.Control>Enter Room</Accordion.Control>
             <Accordion.Panel>
               <EnterRoomForm />
@@ -40,7 +40,7 @@ const UtilityBelt = () => {
             <Accordion.Panel>
               <CreateRoomForm />
             </Accordion.Panel>
-          </Accordion.Item>
+          </Accordion.Item> */}
         </Accordion>
       </div>
     )

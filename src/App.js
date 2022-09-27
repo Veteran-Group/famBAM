@@ -18,10 +18,10 @@ export const AppContext = createContext();
 
 function App() {
 
-  let [randomQuote, setRandomQuote] = useState({});
+  let [socketState, setSocketState] = useState(socket);
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [roomInfo, setRoomInfo] = useState({
-    roomName: 'Home',
+    roomName: localStorage.getItem('lastRoom'),
     id: 'a001'
   });
   let [profile, setProfile] = useState({
@@ -62,24 +62,14 @@ function App() {
       })
   }, [])
 
-  useEffect(() => {
-    axios.get(`${api}/getChat?cid=${roomInfo.id}`)
-      .then((response) => {
-        setChatLog(chatLog = response.data);
-      })
-      .catch((err) => {
-        console.log(`Error: ./App -> useEffect - updating chat`)
-      })
-  }, [roomInfo]);
-
   return (
-    <AppContext.Provider value={{randomQuote, roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{socketState, roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
           <Navbar />
           <Profile />
-          {/* <Todo /> */}
+          <Todo />
           <UtilityBelt />
           <MainFeed />
         </div>

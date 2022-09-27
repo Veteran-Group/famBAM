@@ -49,7 +49,7 @@ const CreateRoomForm = () => {
         lastName: profile.lastName,
         username: profile.username,
         profileImg: profile.profileImg,
-        lastRoom: profile.lastRoom,
+        lastRoom: response.roomName,
         role: profile.role,
         status: profile.status,
         myRooms: [...profile.myRooms, { room_id: response.id, room_name: response.roomName }]
