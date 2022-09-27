@@ -10,7 +10,6 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
       l_name VARCHAR,
       username VARCHAR,
       profile_img VARCHAR,
-      last_room VARCHAR,
       role VARCHAR,
       logged_in BOOLEAN
     )`)

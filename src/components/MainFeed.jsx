@@ -35,9 +35,6 @@ const MainFeed = () => {
       .catch((err) => {
         console.log(`Error: ./App -> useEffect - updating chat`)
       })
-    // Joining the current chat room
-
-    socketState.emit('joinRoom', createMessagePack('', profile, roomInfo));
 
     let enterMessage = () => {
       let message = document.getElementById('message').value;

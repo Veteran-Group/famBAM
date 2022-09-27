@@ -32,6 +32,7 @@ useEffect(() => {
                 }}>{!disabled ? 'Text Dad' : 'Wait to Text'}</Button>
                 <Button id="momText" style={{ margin: 10 }} onClick={() => {
                   sendTextTo('mom', profile.firstName);
+                  setDisabled(true);
                 }}>{!disabled ? 'Text Mom' : 'Wait to Text'}</Button>
               </Accordion.Panel>
             </Accordion.Item>

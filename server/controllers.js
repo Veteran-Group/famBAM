@@ -14,7 +14,7 @@ module.exports = {
       .then((response) => {
         if (response[0].rows.length === 1) {
           let id = response[0].rows[0].user_id;
-          db.queryAsync(`SELECT user_id, f_name, l_name, username, profile_img, last_room, role FROM fambamschema.profile WHERE user_id=${id} AND logged_in=false`)
+          db.queryAsync(`SELECT user_id, f_name, l_name, username, profile_img, role FROM fambamschema.profile WHERE user_id=${id} AND logged_in=false`)
             .then((response) => {
               let profile = response[0].rows[0];
               let user = {
@@ -24,51 +24,22 @@ module.exports = {
                 username: profile.username,
                 role: profile.role,
                 profileImg: profile.profile_img,
-                lastRoom: profile.last_room,
                 status: true
               };
               db.queryAsync(`UPDATE fambamschema.profile SET logged_in=true WHERE user_id=${user.id}`)
-              return user;
-            })
-            .then((user) => {
-              db.queryAsync(`SELECT room_id, room_name FROM fambamschema.roomList WHERE owner_id=${user.id}`)
-                .then((response) => {
-                  user[`myRooms`] = response[0].rows;
-                  console.log(user)
-                  res.status(200).send(user);
-                })
+              res.status(200).send(user);
             })
         } else {
           res.status(400).send(false);
         }
       })
       .catch((err) => {
-        res.status(401).sent(false);
+        res.status(401).send(false);
       })
   },
   logout: function (req, res) {
     let { uid } = req.query;
     db.queryAsync(`UPDATE fambamschema.profile SET logged_in=false WHERE user_id=${uid}`)
-  },
-  createNewRoom: function(req, res) {
-    const { desiredRoomName, roomPass, owner } = req.query;
-    // Generate room id
-    let id = serverLib.getRoomSerial(desiredRoomName);
-    // update roomList with room_id, room_name, and room_pass
-    let newRoomQuery = { text: addRoomList, values: [id, desiredRoomName, roomPass, owner] };
-    Promise.all(
-      db.queryAsync(newRoomQuery)
-      // Create a new table using fambamschema.{room_id}
-      .then(db.queryAsync(`CREATE TABLE fambamschema.${id} (
-        user_id INTEGER,
-        user_name VARCHAR,
-        user_message VARCHAR,
-        time_stamp VARCHAR,
-        date VARCHAR
-      )`))
-    )
-    let answer = { roomName: desiredRoomName, id: id };
-    res.status(200).send(answer)
   },
   newMessage: function(req, res) {
     const { uid, cid, un, um, ts, da } = req.query;
@@ -90,36 +61,6 @@ module.exports = {
         res.status(200).send(response[0].rows);
       })
   },
-  chatLogin: function(req, res) {
-    let { roomName, roomPass } = req.query;
-    const query = { text: roomLogin, values: [roomName, roomPass] };
-    db.queryAsync(query)
-      .then((response) => {
-        if (response[0].rows.length === 0) {
-          console.log(response[0].rows)
-          res.status(400).send(false);
-        } else {
-          let answer = { roomName: roomName, id: response[0].rows[0].room_id };
-          res.status(200).send(answer)
-        }
-      })
-      .catch((err) => {
-        console.log(`Error in controller/chatLogin EP: ${err}`)
-      })
-  },
-  allRooms: function(req, res) {
-    db.queryAsync(`SELECT room_name FROM fambamschema.roomList`)
-      .then((response) => {
-        let roomNameList = [];
-        response[0].rows.forEach((roomNameObj) => {
-          roomNameList.push(roomNameObj.room_name)
-        })
-        res.status(200).send(roomNameList);
-      })
-      .catch((err) => {
-        console.log(`ERROR: server/controllers -> allRooms: ${err}`)
-      })
-  },
   sendDadText: function(req, res) {
     const { username, number } = req.query;
     const accountSid = env.TWILIO_ACCOUNT_SID;
@@ -137,6 +78,38 @@ module.exports = {
           })
           .then(message => console.log(message.sid))
           .done();
+  },
+  editProfile: function (req, res) {
+    let { username, picURL, pass } = req.query;
+    let id = parseInt(req.body.profile.id);
+    if (pass.length === 0) {
+    } else {
+      db.queryAsync(`UPDATE fambamschema.credentiales SET pass='${pass}' WHERE user_id=${id};`)
+      .catch((err) => {
+        console.log(`Error set pass: ${err}`)
+      })
+    }
+
+    if (picURL.length === 0 || picURL === 'undefined') {
+    } else {
+      db.queryAsync(`UPDATE fambamschema.profile SET profile_img='${picURL}' WHERE user_id = ${id};`)
+      .catch((err) => {
+        console.log(`Error set picURL: ${err}`)
+      })
+    }
+
+
+    if (username.length === 0) {
+    } else {
+      db.queryAsync(`UPDATE fambamschema.profile SET username='${username}' WHERE user_id = ${id};`)
+        .then(() => {
+          db.queryAsync(`UPDATE fambamschema.credentiales SET username='${username}' WHERE user_id=${id}`)
+        })
+        .catch((err) => {
+          console.log(`Error set username: ${err}`)
+        })
+    }
+
   },
   newToDo: function(req, res) {
     const {user, id, task, instructions, taskId} = req.query;

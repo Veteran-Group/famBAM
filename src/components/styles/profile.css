@@ -12,7 +12,7 @@
 .profile-box .avatar {
   margin: 0;
   position: absolute;
-  top: 5.5vh;
+  top: 6vh;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -40,11 +40,16 @@
 .profile-box .edit {
   position: absolute;
   margin-top: 10px;
-  margin-left: 90%;
-  margin-right: 10%;
+  margin-left: 85%;
+  margin-right: 15%;
 }
 
 .profile-box .edit :hover {
   cursor: pointer;
   color: grey;
+}
+
+.profile-box .pa-portal {
+  margin-left: 30%;
+  margin-top: 12vh;
 }

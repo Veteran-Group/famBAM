@@ -9,10 +9,11 @@ import Profile from './components/Profile/Profile.jsx';
 import Todo from './components/Todo.jsx';
 import axios from 'axios';
 import UtilityBelt from './components/UtilityBelt.jsx';
-import { api } from './config.js';
+import { api, chatAPI } from './config.js';
 import { io } from 'socket.io-client';
+import { createMessagePack } from './lib/ChatFeed/chatfeedlib';
 
-const socket = io('http://192.168.1.8:3002');
+const socket = io(chatAPI);
 
 export const AppContext = createContext();
 
@@ -51,6 +52,11 @@ function App() {
     setLoginStatus(loginStatus = false);
   }
 
+  useEffect(() => {
+     // Joining the current chat room
+     socketState.emit('joinRoom', createMessagePack('', profile, roomInfo));
+  }, [])
+
   return (
     <AppContext.Provider value={{socketState, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
@@ -59,8 +65,8 @@ function App() {
           <Navbar />
           <Profile />
           <Todo />
-          <UtilityBelt />
-          <MainFeed />
+          {mainView === 'chat' || mainView === 'video' ? <UtilityBelt /> : null}
+          {mainView === 'chat' || mainView === 'video' ? <MainFeed /> : null}
         </div>
       }
 
