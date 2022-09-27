@@ -67,7 +67,6 @@ const MainFeed = () => {
         </Tabs.List>
 
         <Tabs.Panel value="chat" pt="md">
-            <Text className="title">{roomInfo.roomName}</Text>
             <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" style={{ height: 520 }}>
               <ChatBubble />
             </ScrollArea>

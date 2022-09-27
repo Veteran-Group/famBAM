@@ -85,7 +85,7 @@ module.exports = {
   },
   getChat: function(req, res) {
     const { cid } = req.query;
-    db.queryAsync(`SELECT * FROM fambamschema.${cid}`)
+    db.queryAsync(`SELECT * FROM fambamschema.${cid} LIMIT 10`)
       .then((response) => {
         res.status(200).send(response[0].rows);
       })

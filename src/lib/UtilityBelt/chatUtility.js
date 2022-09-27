@@ -1,8 +1,8 @@
 import axios from "axios"
-import { api } from '../../config.js';
+import { api, dadNumber, momNumber } from '../../config.js';
 
 export const sendTextTo = (parent, from) => {
-  let number = parent = 'dad' ? '+19162257301' : '+19167409976';
+  let number = parent = 'dad' ? dadNumber : momNumber;
 
   axios.put(`${api}/sendDadText?username=${from}&number=${number}`)
   localStorage.setItem('textButtonStatus', 'true');
