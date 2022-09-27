@@ -1,7 +1,7 @@
 .profile-box {
   position: absolute;
   min-width: 20vw;
-  min-height: 30vh;
+  height: 30vh;
   border-radius: 10px;
   margin-top: 3vh;
   margin-left: 3vw;
@@ -12,7 +12,7 @@
 .profile-box .avatar {
   margin: 0;
   position: absolute;
-  top: 35%;
+  top: 5.5vh;
   left: 50%;
   transform: translate(-50%, -50%);
 }

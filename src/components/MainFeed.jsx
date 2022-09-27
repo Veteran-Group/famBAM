@@ -6,46 +6,49 @@ import { AppContext } from "../App";
 import { createMessagePack } from "../lib/ChatFeed/chatfeedlib.js";
 import axios from "axios";
 import { api } from '../config.js';
-import { io } from 'socket.io-client';
 require('dotenv').config();
 
-// For online chat server
-const socket = io('http://192.168.1.8:3002')
-// For home chat server
-//const socket = io(process.env.REACT_APP_CHAT_SERVER);
 
 const MainFeed = () => {
 
-  let {roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
+  let {socketState, roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
   const viewport = useRef(<ScrollArea></ScrollArea>);
-
-  let enterMessage = () => {
-    let message = document.getElementById('message').value;
-    socket.emit('chat', createMessagePack(message, profile, roomInfo));
-  }
 
   useEffect(() => {
     // Setting up autoscroll to bottom of chat
     viewport.current.scrollTo({ top: viewport.current.scrollHeight, behavior: 'smooth' });
 
     // Setup of client-side chat socket
-    socket.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
+    socketState.on('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
 
     return () => {
-      socket.off('chat');
+      socketState.off('chat', (message) => {setChatLog(chatLog = [...chatLog, message])});
     }
   }, [chatLog]);
 
   useEffect(() => {
+
+    axios.get(`${api}/getChat?cid=${roomInfo.id}`)
+      .then((response) => {
+        setChatLog(chatLog = response.data);
+      })
+      .catch((err) => {
+        console.log(`Error: ./App -> useEffect - updating chat`)
+      })
     // Joining the current chat room
 
-    socket.emit('joinRoom', createMessagePack('', profile, roomInfo));
+    socketState.emit('joinRoom', createMessagePack('', profile, roomInfo));
+
+    let enterMessage = () => {
+      let message = document.getElementById('message').value;
+      socketState.emit('chat', createMessagePack(message, profile, roomInfo));
+    }
 
     // Set ting up key handeler for chat --> need to use mantine forms later
     let keyDownHandler = (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        enterMessage(profile, roomInfo);
+        enterMessage();
         document.getElementById('message').value = "";
       }
     };

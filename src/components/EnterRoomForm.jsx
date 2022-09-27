@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import { loginToChatroom } from '../lib/UtilityBelt/chatUtility.js';
 import { AppContext } from '../App.js';
 import { RoomRecordingContext } from 'twilio/lib/rest/video/v1/room/recording.js';
+import { saveStatus } from '../lib/login/login.js';
 
 const EnterRoomForm = () => {
 
@@ -27,6 +28,19 @@ const EnterRoomForm = () => {
           roomName: room.roomName,
           id: room.id
         });
+        let newProfile = {
+          id: profile.id,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          username: profile.username,
+          profileImg: profile.profileImg,
+          lastRoom: room.roomName,
+          role: profile.role,
+          status: profile.status,
+          myRooms: [...profile.myRooms, { room_id: room.id, room_name: room.roomName }]
+        }
+        saveStatus(newProfile);
+        setProfile(profile = newProfile);
         LoginRoomForm.setValues({
           roomName: '',
           roomPass: ''

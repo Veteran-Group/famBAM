@@ -3,6 +3,7 @@ const db = require('../src/db/index.js');
 const express = require('express');
 const Promise = require('bluebird');
 const serverLib = require('./lib/newRoom.js');
+const env = process.env;
 
 module.exports = {
   login: function(req, res) {
@@ -107,7 +108,6 @@ module.exports = {
       })
   },
   allRooms: function(req, res) {
-    console.log('allRooms EP pinged');
     db.queryAsync(`SELECT room_name FROM fambamschema.roomList`)
       .then((response) => {
         let roomNameList = [];
@@ -119,6 +119,20 @@ module.exports = {
       .catch((err) => {
         console.log(`ERROR: server/controllers -> allRooms: ${err}`)
       })
+  },
+  sendDadText: function(req, res) {
+    const { username, message } = req.query;
+    const accountSid = env.TWILIO_ACCOUNT_SID;
+    const authToken = env.TWILIO_AUTH_TOKEN;
+    const client = require('twilio')(accountSid, authToken);
+
+    client.messages
+          .create({
+            body: ,
+            to: '+19162257301'
+          })
+          .then(message => console.log(message.sid))
+          .done();
   },
   newToDo: function(req, res) {
     const {user, id, task, instructions, taskId} = req.query;
