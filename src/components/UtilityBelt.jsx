@@ -5,10 +5,11 @@ import { AppContext } from '../App';
 import { api } from '../config.js';
 import axios from 'axios';
 import { sendTextTo } from '../lib/UtilityBelt/chatUtility';
+import VideoCard from './VideoCard';
 
 const UtilityBelt = () => {
 
-  let {mainView, setMainView, profile} = useContext(AppContext);
+  let {videoList, setVideoList, currentVideo, setCurrentVideo, mainView, setMainView, profile} = useContext(AppContext);
   let [disabled, setDisabled] = useState(localStorage.getItem('textButtonStatus'));
 
 useEffect(() => {
@@ -43,7 +44,7 @@ useEffect(() => {
   } else if (mainView === 'video') {
     return (
       <div className="utility-belt">
-        <Text>Video Utility Belt</Text>
+        <VideoCard />
       </div>
     )
   }

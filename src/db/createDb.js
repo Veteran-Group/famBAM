@@ -11,7 +11,26 @@ db.queryAsync(`DROP SCHEMA IF EXISTS fambamschema CASCADE`)
       username VARCHAR,
       profile_img VARCHAR,
       role VARCHAR,
+      dad_id INTEGER,
+      mom_id INTEGER,
       logged_in BOOLEAN
+    )`)
+  })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.video_list (
+      user_id INTEGER,
+      video_id VARCHAR,
+      title VARCHAR,
+      description VARCHAR,
+      thumbnail VARCHAR
+    )`)
+  })
+  .then(() => {
+    db.queryAsync(`CREATE TABLE fambamschema.link_list (
+      user_id INTEGER,
+      link VARCHAR,
+      link_text VARCHAR,
+      link_description VARCHAR
     )`)
   })
   .then(() => {

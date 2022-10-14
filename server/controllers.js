@@ -27,7 +27,14 @@ module.exports = {
                 status: true
               };
               db.queryAsync(`UPDATE fambamschema.profile SET logged_in=true WHERE user_id=${user.id}`)
-              res.status(200).send(user);
+              return user;
+            })
+            .then((user) => {
+              db.queryAsync(`SELECT room_id, room_name FROM fambamschema.roomList WHERE owner_id=${user.id}`)
+                .then((response) => {
+                  user[`myRooms`] = response[0].rows;
+                  res.status(200).send(user);
+                })
             })
         } else {
           res.status(400).send(false);
@@ -102,9 +109,9 @@ module.exports = {
     if (username.length === 0) {
     } else {
       db.queryAsync(`UPDATE fambamschema.profile SET username='${username}' WHERE user_id = ${id};`)
-        .then(() => {
-          db.queryAsync(`UPDATE fambamschema.credentiales SET username='${username}' WHERE user_id=${id}`)
-        })
+      .then(() => {
+        db.queryAsync(`UPDATE fambamschema.credentiales SET username='${username}' WHERE user_id=${id}`)
+      })
         .catch((err) => {
           console.log(`Error set username: ${err}`)
         })

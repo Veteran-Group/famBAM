@@ -12,6 +12,7 @@ import UtilityBelt from './components/UtilityBelt.jsx';
 import { api, chatAPI } from './config.js';
 import { io } from 'socket.io-client';
 import { createMessagePack } from './lib/ChatFeed/chatfeedlib';
+import ParentPortal from './components/ParentPortal';
 
 const socket = io(chatAPI);
 
@@ -36,6 +37,8 @@ function App() {
   });
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
+  let [currentVideo, setCurrentVideo] = useState("RUnvkHZwDg4");
+  let [videoList, setVideoList] = useState([]);
 
   const exit = () => {
     logout();
@@ -58,7 +61,7 @@ function App() {
   }, [])
 
   return (
-    <AppContext.Provider value={{socketState, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{videoList, setVideoList, currentVideo, setCurrentVideo, socketState, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
@@ -66,7 +69,7 @@ function App() {
           <Profile />
           <Todo />
           {mainView === 'chat' || mainView === 'video' ? <UtilityBelt /> : null}
-          {mainView === 'chat' || mainView === 'video' ? <MainFeed /> : null}
+          {mainView === 'chat' || mainView === 'video' ? <MainFeed /> : <ParentPortal />}
         </div>
       }
 
