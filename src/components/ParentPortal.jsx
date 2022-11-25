@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import { api } from "../config.js";
 import './styles/parentportal.css';
 import { AppContext } from '../App.js';
@@ -34,9 +34,14 @@ const ParentPortal = () => {
             })
           }
           <Button onClick={() => {
-            // if (!childStat['username']) {
-            //   Promise.all()
-            // }
+            for(let key in childStat) {
+              if (!childStat[key]['username']) {
+                axios.get(`${api}/getUsername?id=${childStat[key]['id']}`)
+                  .then((response) => {
+                    childStat[key]['username'] = response.data[0].username;
+                  })
+              }
+            }
             alert(JSON.stringify(childStat))
           }}>Get Username</Button>
         </div>
