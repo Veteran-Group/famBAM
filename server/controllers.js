@@ -141,5 +141,13 @@ module.exports = {
     db.queryAsync(`UPDATE fambamschema.${user}_${id}
     SET completed=true
     WHERE id=${taskId};`)
-  }
+  },
+  getKids: function(req, res) {
+    const { id } = req.query;
+
+    db.queryAsync(`SELECT * FROM fambamschema.profile WHERE mom_id=${id} OR dad_id=${id}`)
+      .then((response) => {
+        res.status(200).send(response[0].rows);
+      })
+  },
 }

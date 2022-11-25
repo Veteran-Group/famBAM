@@ -9,9 +9,10 @@ router.use(allowServerAccessBy());
 
 router.get(`/login`, controller.login);
 router.get(`/getChat`, controller.getChat);
+router.get(`/getToDo`, controller.getToDo);
+router.get(`/getKids`, controller.getKids);
 router.post(`/newMessage`, controller.newMessage);
 router.post(`/newToDo`, controller.newToDo);
-router.get(`/getToDo`, controller.getToDo);
 router.put(`/completeToDo`, controller.completedToDo);
 router.put(`/logout`, controller.logout);
 router.put(`/sendDadText`, controller.sendDadText);
