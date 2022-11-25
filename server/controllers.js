@@ -150,4 +150,12 @@ module.exports = {
         res.status(200).send(response[0].rows);
       })
   },
+  getUsername: function(req, res) {
+    const { id } = req.query;
+
+    db.queryAsync(`SELECT username FROM fambamschema.credentiales WHERE user_id=${id}`)
+      .then((response) => {
+        res.status(200).send(response[0].rows);
+      })
+  },
 }

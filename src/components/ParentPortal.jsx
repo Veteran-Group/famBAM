@@ -4,6 +4,7 @@ import { api } from "../config.js";
 import './styles/parentportal.css';
 import { AppContext } from '../App.js';
 import { Checkbox, Button } from '@mantine/core';
+import { Promise } from 'bluebird';
 //import { useSelectChild } from './hooks/useSelectChild.js';
 
 const ParentPortal = () => {
@@ -27,12 +28,17 @@ const ParentPortal = () => {
           {children.map((child) => {
             return (
               <>
-                <Checkbox onClick={() => { childStat[child.f_name] = true }} className="childChkBox" label={child.f_name} />
+                <Checkbox onClick={() => { childStat[child.f_name] = {status: true, id: child.user_id} }} className="childChkBox" label={child.f_name} />
               </>
               )
             })
           }
-          <Button onClick={() => { alert(JSON.stringify(childStat)) }} />
+          <Button onClick={() => {
+            // if (!childStat['username']) {
+            //   Promise.all()
+            // }
+            alert(JSON.stringify(childStat))
+          }}>Get Username</Button>
         </div>
       </div>
     </>
