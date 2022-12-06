@@ -3,15 +3,13 @@ import axios, { Axios } from 'axios';
 import { api } from "../config.js";
 import './styles/parentportal.css';
 import { AppContext } from '../App.js';
-import { Checkbox, Button } from '@mantine/core';
+import { Accordion } from '@mantine/core';
 import { Promise } from 'bluebird';
-//import { useSelectChild } from './hooks/useSelectChild.js';
 
 const ParentPortal = () => {
 
   const { profile } = useContext(AppContext);
   let [children, setChildren] = useState([]);
-  let [childStat, setChildStat] = useState({});
 
 
   useEffect(() => {
@@ -19,31 +17,26 @@ const ParentPortal = () => {
       .then((response) => {
         setChildren(children = response.data);
       })
+      .then(() => {console.log(JSON.stringify(children))})
   }, []);
 
   return (
     <>
       <div className="parent-portal">
         <div className="child-container">
-          {children.map((child) => {
-            return (
-              <>
-                <Checkbox onClick={() => { childStat[child.f_name] = {status: true, id: child.user_id} }} className="childChkBox" label={child.f_name} />
-              </>
-              )
-            })
-          }
-          <Button onClick={() => {
-            for(let key in childStat) {
-              if (!childStat[key]['username']) {
-                axios.get(`${api}/getUsername?id=${childStat[key]['id']}`)
-                  .then((response) => {
-                    childStat[key]['username'] = response.data[0].username;
-                  })
-              }
+          <Accordion>
+            {children.map((child) => {
+              return (
+                <Accordion.Item value={child.f_name}>
+                  <Accordion.Control>{child.f_name}</Accordion.Control>
+                  <Accordion.Panel>
+                    <p/>User ID: {child.user_id}  |  Logged In: {JSON.stringify(child.logged_in)}
+                    <p/>Username: {child.username}  |  Last Name: {child.l_name}
+                  </Accordion.Panel>
+                </Accordion.Item>
+              )})
             }
-            alert(JSON.stringify(childStat))
-          }}>Get Username</Button>
+          </Accordion>
         </div>
       </div>
     </>
