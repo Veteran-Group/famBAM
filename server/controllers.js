@@ -145,7 +145,10 @@ module.exports = {
   getKids: function(req, res) {
     const { id } = req.query;
 
-    db.queryAsync(`SELECT * FROM fambamschema.profile WHERE mom_id=${id} OR dad_id=${id}`)
+    db.queryAsync(`SELECT user_id, username, f_name, l_name, logged_in FROM fambamschema.profile WHERE mom_id=${id} OR dad_id=${id}`)
+    .catch((err) => {
+      res.status(404).send(`Err getting child: ${err}`)
+    })
       .then((response) => {
         res.status(200).send(response[0].rows);
       })
