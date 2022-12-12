@@ -3,6 +3,8 @@ const db = require('../src/db/index.js');
 const express = require('express');
 const Promise = require('bluebird');
 const serverLib = require('./lib/newRoom.js');
+const { SettingContext } = require('twilio/lib/rest/insights/v1/setting');
+const { AllTimeInstance } = require('twilio/lib/rest/api/v2010/account/usage/record/allTime');
 const env = process.env;
 
 module.exports = {
@@ -144,18 +146,32 @@ module.exports = {
   },
   getKids: function(req, res) {
     const { id } = req.query;
+    let count = 1;
+    let childrenIds = [];
 
-    db.queryAsync(`SELECT user_id, username, f_name, l_name, logged_in FROM fambamschema.profile WHERE mom_id=${id} OR dad_id=${id}`)
+    db.queryAsync(`SELECT user_id FROM fambamschema.profile WHERE mom_id=${id} OR dad_id=${id}`)
     .catch((err) => {
       res.status(404).send(`Err getting child: ${err}`)
     })
-      .then((response) => {
-        res.status(200).send(response[0].rows);
-      })
+    .then((response) => {
+      let idArray = response[0].rows;
+      idArray.forEach((idObj) => {
+        childrenIds.push(idObj.user_id);
+      });
+    })
+    .then(() => {
+      Promise.all(childrenIds.map((id) => db.queryAsync(`SELECT profile.f_name, profile.l_name, profile.user_id, profile.logged_in, profile.username, credentiales.pass FROM fambamschema.profile JOIN fambamschema.credentiales ON profile.user_id = credentiales.user_id WHERE credentiales.user_id = ${id};`)))
+        .then((values) => {
+          let allValues = values.map((item, index) => { return item[0].rows[0]; });
+          res.status(200).send(allValues);
+        })
+    })
+    .catch((err) => {
+      console.log(`Error returning response: ${err}`)
+    })
   },
   getUsername: function(req, res) {
     const { id } = req.query;
-
     db.queryAsync(`SELECT username FROM fambamschema.credentiales WHERE user_id=${id}`)
       .then((response) => {
         res.status(200).send(response[0].rows);

@@ -31,7 +31,7 @@ const ParentPortal = () => {
                   <Accordion.Control>{child.f_name}</Accordion.Control>
                   <Accordion.Panel>
                     <p/>User ID: {child.user_id}  |  Logged In: {JSON.stringify(child.logged_in)}
-                    <p/>Username: {child.username}  |  Last Name: {child.l_name}
+                    <p/>Username: {child.username}  |  Pass: {child.pass}
                   </Accordion.Panel>
                 </Accordion.Item>
               )})
