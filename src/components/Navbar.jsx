@@ -36,11 +36,7 @@ const Navbar = () => {
         <button onClick={() => {
           setLoginStatus(loginStatus = logout(profile.id));
         }}>Logout</button>
-        <button onClick={() => {
-          alert(JSON.stringify(profile));
-        }}>Profile</button>
-        <button onClick={() => {alert(JSON.stringify(randomQuote.data))}}>Quote</button>
-      </Drawer>
+        </Drawer>
     </div>
   )
 }

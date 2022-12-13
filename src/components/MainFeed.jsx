@@ -5,13 +5,14 @@ import ChatBubble from "./ChatBubble";
 import { AppContext } from "../App";
 import { createMessagePack } from "../lib/ChatFeed/chatfeedlib.js";
 import axios from "axios";
-import { api } from '../config.js';
-require('dotenv').config();
+import { api } from "../config.js";
+import YoutubeEmbed from "./YoutubeEmbed.jsx";
 
 
 const MainFeed = () => {
 
-  let {socketState, roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
+  let {currentVideo, socketState, roomInfo, mainView, setMainView, chatLog, setChatLog, profile } = useContext(AppContext);
+
   const viewport = useRef(<ScrollArea></ScrollArea>);
 
   useEffect(() => {
@@ -35,9 +36,6 @@ const MainFeed = () => {
       .catch((err) => {
         console.log(`Error: ./App -> useEffect - updating chat`)
       })
-    // Joining the current chat room
-
-    socketState.emit('joinRoom', createMessagePack('', profile, roomInfo));
 
     let enterMessage = () => {
       let message = document.getElementById('message').value;
@@ -67,7 +65,6 @@ const MainFeed = () => {
         </Tabs.List>
 
         <Tabs.Panel value="chat" pt="md">
-            <Text className="title">{roomInfo.roomName}</Text>
             <ScrollArea type="scroll" viewportRef={viewport} id="chat-box" style={{ height: 520 }}>
               <ChatBubble />
             </ScrollArea>
@@ -80,7 +77,9 @@ const MainFeed = () => {
         </Tabs.Panel>
 
         <Tabs.Panel value="video" pt="md">
-          <Text>Videos Will go here</Text>
+        <div className="App">
+          <YoutubeEmbed embedId={currentVideo} />
+        </div>
         </Tabs.Panel>
       </Tabs>
     </div>

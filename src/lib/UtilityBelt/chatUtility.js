@@ -1,30 +1,15 @@
 import axios from "axios"
-import { api } from '../../config.js';
-import Promise from 'bluebird';
+import { api, dadNumber, momNumber } from '../../config.js';
 
-export const createRoom = (ownerId, roomName, roomPass, callback) => {
-  axios.get(`${api}/createNewRoom?desiredRoomName=${roomName}&roomPass=${roomPass}&owner=${ownerId}`)
-    .then((response) => {
-      callback(response.data)
-    })
-    .catch((err) => {
-      console.log(`Error in ./src/lib/UtilityBelt/chatUtility.js-createRoom: ${err}`);
-    })
-}
+export const sendTextTo = (parent, from) => {
+  let number = '';
 
-export const setProfileValue = (profile, profileKey, value) => {
-  profile[profileKey] = [...profile[profileKey], value];
-  return profile;
-}
+  if (parent === 'dad') {
+    number = dadNumber
+  } else if (parent === 'mom') {
+    number = momNumber;
+  }
 
-export const loginToChatroom = (name, pass, callback) => {
-
-  axios.get(`${api}/chatLogin?roomName=${name}&roomPass=${pass}`)
-    .then((response) => {
-      console.log(`chat login response: ${JSON.stringify(response.data)}`)
-      callback(response.data);
-    })
-    .catch((err) => {
-      alert(`Room name or password is incorrect. Please try again.`)
-    })
+  axios.put(`${api}/sendDadText?username=${from}&number=${number}`)
+  localStorage.setItem('textButtonStatus', 'true');
 }

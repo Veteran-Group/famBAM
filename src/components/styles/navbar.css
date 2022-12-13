@@ -15,8 +15,11 @@
 .navbar .burger {
   margin: 5px;
   align-self: left;
+  height: 30px;
+  width: 30px;
 }
 
 .navbar .burger :hover {
   cursor: pointer;
+  color: grey;
 }

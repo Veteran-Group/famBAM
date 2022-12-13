@@ -9,10 +9,12 @@ import Profile from './components/Profile/Profile.jsx';
 import Todo from './components/Todo.jsx';
 import axios from 'axios';
 import UtilityBelt from './components/UtilityBelt.jsx';
-import { api } from './config.js';
+import { api, chatAPI } from './config.js';
 import { io } from 'socket.io-client';
+import { createMessagePack } from './lib/ChatFeed/chatfeedlib';
+import ParentPortal from './components/ParentPortal';
 
-const socket = io('http://192.168.1.8:3002');
+const socket = io(chatAPI);
 
 export const AppContext = createContext();
 
@@ -21,7 +23,7 @@ function App() {
   let [socketState, setSocketState] = useState(socket);
   let [loginStatus, setLoginStatus] = useState(localStorage.getItem('fambamLogin'));
   let [roomInfo, setRoomInfo] = useState({
-    roomName: localStorage.getItem('lastRoom'),
+    roomName: 'Home',
     id: 'a001'
   });
   let [profile, setProfile] = useState({
@@ -30,14 +32,13 @@ function App() {
     lastName: localStorage.getItem('lastName'),
     username: localStorage.getItem('username'),
     profileImg: localStorage.getItem('profileImg'),
-    lastRoom: localStorage.getItem('lastRoom'),
     role: localStorage.getItem('role'),
     status: localStorage.getItem('fambamLogin'),
-    myRooms: JSON.parse(localStorage.getItem('myRooms')),
   });
   let [chatLog, setChatLog] = useState([]);
   let [mainView, setMainView] = useState('chat');
-  let [roomList, setRoomList] = useState([]);
+  let [currentVideo, setCurrentVideo] = useState("RUnvkHZwDg4");
+  let [videoList, setVideoList] = useState([]);
 
   const exit = () => {
     logout();
@@ -47,7 +48,6 @@ function App() {
       username: localStorage.getItem('username'),
       role: localStorage.getItem('role'),
       profileImg: localStorage.getItem('profileImg'),
-      lastRoom: localStorage.getItem('lastRoom'),
       status: localStorage.getItem('fambamLogin'),
       myRooms: JSON.parse(localStorage.getItem('myRooms')),
     })
@@ -56,22 +56,20 @@ function App() {
   }
 
   useEffect(() => {
-    axios.get(`${api}/allRooms`)
-      .then((response) => {
-        setRoomList(roomList = response.data)
-      })
+     // Joining the current chat room
+     socketState.emit('joinRoom', createMessagePack('', profile, roomInfo));
   }, [])
 
   return (
-    <AppContext.Provider value={{socketState, roomList, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
+    <AppContext.Provider value={{videoList, setVideoList, currentVideo, setCurrentVideo, socketState, roomInfo, setRoomInfo, mainView, setMainView, profile, setProfile, loginStatus, setLoginStatus, chatLog, setChatLog}}>
       {!loginStatus ?
       <Login /> :
       <div className="App">
           <Navbar />
           <Profile />
           <Todo />
-          <UtilityBelt />
-          <MainFeed />
+          {mainView === 'chat' || mainView === 'video' ? <UtilityBelt /> : null}
+          {mainView === 'chat' || mainView === 'video' ? <MainFeed /> : <ParentPortal />}
         </div>
       }
 
