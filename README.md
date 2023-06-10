@@ -1,3 +1,12 @@
+# FamBAM
+## Purpose:
+  The purpose of this project is to create an online portal where a family can use to track the following:
+  * Kids can send text messages to parents
+  * A chatroom where family can communicate
+  * Track kids allowance (bank account simulator)
+  * Video viewing platform that accesses a local drive and displays the available vodeos (YouTube simulator)
+  * Track kids to-do/chore list
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
